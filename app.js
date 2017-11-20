@@ -162,7 +162,7 @@ browser.pageAction.onClicked.addListener(function(tab) {
       item[host] = (new Date()).toISOString();
 
       if (promises) {
-        browser.storage.local.set(item).then(function () {
+        browser.storage.local.set(item).then(function() {
           browser.tabs.reload();
         });
       } else {
@@ -172,4 +172,23 @@ browser.pageAction.onClicked.addListener(function(tab) {
       }
     }
   });
+});
+
+/**
+ * Reload active tabs after web extension installation.
+ */
+browser.runtime.onInstalled.addListener(function() {
+  if (promises) {
+    browser.tabs.query({}).then(function(tabs) {
+      for (var i = 0; i < tabs.length; i++) {
+        browser.tabs.reload(tabs[i].id);
+      }
+    });
+  } else {
+    browser.tabs.query({}, function(tabs) {
+      for (var i = 0; i < tabs.length; i++) {
+        browser.tabs.update(tabs[i].id, {url: tabs[i].url});
+      }
+    });
+  }
 });
