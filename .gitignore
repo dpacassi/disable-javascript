@@ -1,0 +1,9 @@
+# Ignore IDE created files and directories.
+/.settings
+/.buildpath
+/.project
+/.idea
+
+# Ignore OS files.
+.DS_Store
+
