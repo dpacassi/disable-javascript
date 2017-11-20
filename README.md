@@ -12,11 +12,18 @@ host _(unless you block that host as well of course)_.
 Disabling and enabling JavaScript should be pretty self-explanatory.  
 The icons and labels update for a tab accordingly.
 
+## Support
+If you need any assistance or find any bugs, feel free to contact me directly via email or create a
+new issue on the [projects GitHub page](https://github.com/dpacassi/disable-javascript).
+
 ## Future plans
-If the user base increases, I can port this web extension to Microsoft Edge and Safari as well as to
-the mobile versions of the browsers.  
-It's also possible to create a settings page where an user can select if they want to work with a
-**blacklist** or a **whitelist** method. 
+If the user base increases, it's possible to develop more features of this web extension, such as:
+- Add a settings page with an overview of all blacklisted hosts and a `Clear all` button
+- Add the possibility of choosing between the **blacklist** and **whitelist** methods
+- Port to Microsoft Edge
+- Port to Safari
+- Port to mobile devices
+- .. your suggestions/ideas!
 
 ## Maintainer
 - [David Pacassi Torrico](https://pacassi.ch/) _(Web extension implementation, maintenance, support)_
