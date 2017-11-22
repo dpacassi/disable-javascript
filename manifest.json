@@ -2,9 +2,14 @@
   "author": "David Pacassi Torrico",
   "manifest_version": 2,
   "name": "Disable JavaScript",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "homepage_url": "https://github.com/dpacassi/disable-javascript",
+  "applications": {
+    "gecko": {
+      "id": "disable-javascript@pacassi.ch"
+    }
+  },
   "icons": {
     "48": "icons/48/app.png",
     "128": "icons/128/app.png"
@@ -31,4 +36,3 @@
     "webRequestBlocking"
   ]
 }
-
