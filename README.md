@@ -1,5 +1,5 @@
 # Disable JavaScript
-This web extension for [Mozilla Firefox](https://www.mozilla.org/firefox/new/) and [Google Chrome](https://www.google.com/chrome/browser/desktop/index.html)
+This web extension for [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/) and [Google Chrome](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
 lets an user decide if JavaScript should be enabled or disabled for a given host.  
 
 When accessing e.g. [google.com](https://www.google.com/) and disabling JavaScript, the web extension will block all JavaScript
