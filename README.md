@@ -2,7 +2,7 @@
 This web extension lets an user decide if JavaScript should be enabled or disabled for a given host.  
 
 When accessing e.g. [google.com](https://www.google.com/) and disabling JavaScript, the web extension will block all JavaScript
-files which otherwise would be loaded by google.com (including external JS files from other hosts).  
+which otherwise would be loaded by google.com (including inline JS and external JS files from other hosts).  
 
 Please note that scripts from the blacklisted host will still be loaded if they're being loaded in **another**
 host _(unless you block that host as well of course)_.
