@@ -5,11 +5,6 @@
   "version": "1.1.0",
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "homepage_url": "https://github.com/dpacassi/disable-javascript",
-  "applications": {
-    "gecko": {
-      "id": "41f9e51d-35e4-4b29-af66-422ff81c8b41"
-    }
-  },
   "icons": {
     "48": "icons/48/app.png",
     "128": "icons/128/app.png"
