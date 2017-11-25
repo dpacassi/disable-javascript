@@ -15,8 +15,8 @@ host _(unless you block that host as well of course)_.
 Disabling and enabling JavaScript should be pretty self-explanatory.  
 The icons and labels update for a tab accordingly.  
 
-**NOTE:** It's not possible to [exchange](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/pageAction/setIcon) a web extension icon on Firefox for Android yet.  
-To find out if JS is enabled or disabled, simply check the menu item label in the browser menu.
+**NOTE:** On Firefox for Android, no icon will be shown but toggling is possible via a menu item.  
+See the [Add-on page](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/) for screenshots.
 
 ## Support
 If you need any assistance or find any bugs, feel free to contact me directly via email or create a

@@ -14,16 +14,12 @@
     "48": "icons/48/app.png",
     "128": "icons/128/app.png"
   },
-  "page_action": {
+  "browser_action": {
     "browser_style": true,
     "default_icon": {
       "48": "icons/48/app.png",
       "128": "icons/128/app.png"
     },
-    "default_title": "Disable JavaScript"
-  },
-  "browser_action": {
-    "browser_style": true,
     "default_title": "Disable JavaScript"
   },
   "background": {
