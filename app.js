@@ -5,6 +5,7 @@ var browser = browser;
 var promises = true;
 var customStorage = {};
 var listenUrls = ['<all_urls>'];
+var useBrowserAction = typeof browser.pageAction.setTitle === 'undefined';
 
 // If browser is not defined, the plugin was loaded into Google Chrome.
 // Set the browser variable and other differences accordingly.
@@ -119,18 +120,25 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (url) {
     var host = new URL(url).hostname;
     isBlacklisted(host).then(function(blacklisted) {
-      browser.pageAction.setIcon({
-        path: {
-          '48': blacklisted ? 'icons/48/js-off.png' : 'icons/48/js-on.png',
-          '128': blacklisted ? 'icons/128/js-off.png' : 'icons/128/js-on.png'
-        },
-        tabId: tabId
-      });
+      if (useBrowserAction) {
+        browser.browserAction.setTitle({
+          title: (blacklisted ? 'Enable' : 'Disable') + ' Javascript',
+          tabId: tabId
+        });
+      } else {
+        browser.pageAction.setIcon({
+          path: {
+            '48': blacklisted ? 'icons/48/js-off.png' : 'icons/48/js-on.png',
+            '128': blacklisted ? 'icons/128/js-off.png' : 'icons/128/js-on.png'
+          },
+          tabId: tabId
+        });
 
-      browser.pageAction.setTitle({
-        title: (blacklisted ? 'Enable' : 'Disable') + ' Javascript',
-        tabId: tabId
-      });
+        browser.pageAction.setTitle({
+          title: (blacklisted ? 'Enable' : 'Disable') + ' Javascript',
+          tabId: tabId
+        });
+      }
 
       browser.pageAction.show(tabId);
     });
@@ -139,12 +147,9 @@ browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   }
 });
 
-/**
- * Update our blacklist when the user interacts with the app icon.
- * Also updates and reloads the specific tab.
- */
-browser.pageAction.onClicked.addListener(function(tab) {
+var toggleJS = function(tab) {
   var host = new URL(tab.url).hostname;
+
   isBlacklisted(host).then(function(blacklisted) {
     if (blacklisted) {
       if (promises) {
@@ -172,7 +177,15 @@ browser.pageAction.onClicked.addListener(function(tab) {
       }
     }
   });
-});
+};
+
+/**
+ * Update our blacklist when the user interacts with the app icon (or the
+ * menu item in Firefox for Android).
+ * Also updates and reloads the specific tab.
+ */
+browser.browserAction.onClicked.addListener(toggleJS);
+browser.pageAction.onClicked.addListener(toggleJS);
 
 /**
  * Reload active tabs after web extension installation.
