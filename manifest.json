@@ -11,7 +11,6 @@
     "128": "icons/128/app.png"
   },
   "browser_action": {
-    "browser_style": true,
     "default_icon": {
       "40": "icons/40/js-on.png",
       "48": "icons/48/js-on.png",
@@ -22,7 +21,8 @@
   "background": {
     "scripts": [
       "app.js"
-    ]
+    ],
+    "persistent": true
   },
   "permissions": [
     "<all_urls>",
