@@ -116,10 +116,10 @@
 
   if (!promises) {
     /**
-     * On Google Chrome, we need can't add a onHeadersReceived listener returning
-     * a promise/callback.
+     * On browsers without promises, we need can't add a onHeadersReceived listener
+     * returning a promise/callback.
      * Therefor, check if the host is blacklisted already with a onBeforeRequest
-     * listener.
+     * listener and use a custom Storage.
      */
     browser.webRequest.onBeforeRequest.addListener(
       initCustomStorage,
