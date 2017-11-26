@@ -13,9 +13,9 @@
   "browser_action": {
     "browser_style": true,
     "default_icon": {
-      "40": "icons/40/app.png",
-      "48": "icons/48/app.png",
-      "128": "icons/128/app.png"
+      "40": "icons/40/js-on.png",
+      "48": "icons/48/js-on.png",
+      "128": "icons/128/js-on.png"
     },
     "default_title": "Disable JavaScript"
   },

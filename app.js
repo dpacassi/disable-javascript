@@ -15,16 +15,6 @@
     listenUrls = ['http://*/*', 'https://*/*'];
   }
 
-  // Change the default browserAction icon if supported to prevent flickering.
-  if (typeof browser.browserAction.setIcon !== 'undefined') {
-    browser.browserAction.setIcon({
-      path: {
-        '48': 'icons/48/js-on.png',
-        '128': 'icons/128/js-on.png'
-      }
-    });
-  }
-
   /**
    * Checks if a host is blacklisted or not.
    */
