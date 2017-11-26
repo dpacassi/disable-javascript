@@ -6,13 +6,45 @@
   var promises = true;
   var customStorage = {};
   var listenUrls = ['<all_urls>'];
+  var browserName = 'firefox';
 
-  // If browser is not defined, the plugin was loaded into Google Chrome.
-  // Set the browser variable and other differences accordingly.
   if (typeof browser === 'undefined') {
+    // If browser is not defined, the plugin was loaded into Google Chrome.
+    // Set the browser variable and other differences accordingly.
     browser = chrome;
     promises = false;
     listenUrls = ['http://*/*', 'https://*/*'];
+    var browserName = 'chrome';
+  } else if (typeof browser.runtime.getBrowserInfo === 'undefined') {
+    // If browser.runtime.getBrowserInfo is not defined, then we're on
+    // Microsoft Edge. However, we can't use the function at the moment
+    // as even in Firefox it doesn't return any data.
+    promises = false;
+    var browserName = 'edge';
+  }
+
+  /**
+   * Returns the correct app icon depending on the browser and blacklisted status.
+   */
+  function getIcon(blacklisted, tabId) {
+    var icon = {};
+
+    if (browserName === 'edge') {
+      icon.path = {
+        '40': blacklisted ? 'icons/40/js-off.png' : 'icons/40/js-on.png'
+      };
+    } else {
+      icon.path = {
+        '48': blacklisted ? 'icons/48/js-off.png' : 'icons/48/js-on.png',
+        '128': blacklisted ? 'icons/128/js-off.png' : 'icons/128/js-on.png'
+      };
+    }
+
+    if (typeof tabId !== 'undefined') {
+      icon.tabId = tabId;
+    }
+
+    return icon;
   }
 
   /**
@@ -121,13 +153,7 @@
       var host = new URL(url).hostname;
       isBlacklisted(host).then(function(blacklisted) {
         if (typeof browser.browserAction.setIcon !== 'undefined') {
-          browser.browserAction.setIcon({
-            path: {
-              '48': blacklisted ? 'icons/48/js-off.png' : 'icons/48/js-on.png',
-              '128': blacklisted ? 'icons/128/js-off.png' : 'icons/128/js-on.png'
-            },
-            tabId: tabId
-          });
+          browser.browserAction.setIcon(getIcon(blacklisted, tabId));
         }
 
         browser.browserAction.setTitle({
