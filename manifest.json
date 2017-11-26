@@ -6,12 +6,14 @@
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "homepage_url": "https://github.com/dpacassi/disable-javascript",
   "icons": {
+    "40": "icons/40/app.png",
     "48": "icons/48/app.png",
     "128": "icons/128/app.png"
   },
   "browser_action": {
     "browser_style": true,
     "default_icon": {
+      "40": "icons/40/app.png",
       "48": "icons/48/app.png",
       "128": "icons/128/app.png"
     },
