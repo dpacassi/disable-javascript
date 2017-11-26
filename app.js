@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function(browser) {
   // Local variables.
   var browser = browser;
   var promises = true;
@@ -14,13 +14,13 @@
     browser = chrome;
     promises = false;
     listenUrls = ['http://*/*', 'https://*/*'];
-    var browserName = 'chrome';
+    browserName = 'chrome';
   } else if (typeof browser.runtime.getBrowserInfo === 'undefined') {
     // If browser.runtime.getBrowserInfo is not defined, then we're on
     // Microsoft Edge. However, we can't use the function at the moment
     // as even in Firefox it doesn't return any data.
     promises = false;
-    var browserName = 'edge';
+    browserName = 'edge';
   }
 
   /**
@@ -219,4 +219,4 @@
       });
     }
   });
-})();
+})(browser);
