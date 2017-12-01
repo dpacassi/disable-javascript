@@ -30,5 +30,8 @@ If the user base increases, it's possible to develop more features of this web e
 - Add the possibility of choosing between the **blacklist** and **whitelist** methods
 - .. your suggestions/ideas!
 
+## Other web extensions
+- [View Page Source](https://github.com/dpacassi/view-page-source)
+
 ## Maintainer
 - [David Pacassi Torrico](https://pacassi.ch/) _(Web extension implementation, maintenance, support)_
