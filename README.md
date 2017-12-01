@@ -18,6 +18,11 @@ The icons and labels update for a tab accordingly.
 **NOTE:** On Firefox for Android, no icon will be shown but toggling is possible via a menu item.  
 See the [Add-on page](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/) for screenshots.
 
+## Why to use this web extension
+The code is completely **open source**, you can also use the unpacked version of this web extension if you prefer.  
+No data of you will ever be logged and the web extension asks only for needed permissions.  
+Pull requests are **welcome**!
+
 ## Support
 If you need any assistance or find any bugs, feel free to contact me directly via email or create a
 new issue on the [projects GitHub page](https://github.com/dpacassi/disable-javascript).
