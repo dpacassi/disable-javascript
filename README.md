@@ -36,7 +36,7 @@ If the user base increases, it's possible to develop more features of this web e
 - .. your suggestions/ideas!
 
 ## Other web extensions
-- [View Page Source](https://github.com/dpacassi/view-page-source)
+- [View Page Source (Mobile)](https://github.com/dpacassi/view-page-source-mobile)
 
 ## Maintainer
 - [David Pacassi Torrico](https://pacassi.ch/) _(Web extension implementation, maintenance, support)_
