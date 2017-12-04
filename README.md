@@ -30,9 +30,10 @@ new issue on the [projects GitHub page](https://github.com/dpacassi/disable-java
 ## Future plans
 If the user base increases, it's possible to develop more features of this web extension, such as:
 - Add a settings page with an overview of all blacklisted hosts and a `Clear all` button
+- Add the possibility of choosing between the **blacklist** and **whitelist** methods
+- Add the possibility of choosing the default JS state (JS by default on or off)
 - Port to Microsoft Edge
 - Port to Safari
-- Add the possibility of choosing between the **blacklist** and **whitelist** methods
 - .. your suggestions/ideas!
 
 ## Other web extensions
