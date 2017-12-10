@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th {
+        background-color: #ebebeb;
+        color: #808080;
+        font-weight: normal;
+        text-align: left;
+      }
+
+      .content-list td {
+        cursor: default;
+      }
+
+      .content-list tr:nth-child(even) {
+        background-color: #f5f5f5;
+      }
+
+      .content-list tr.active {
+        background-color: #0a84ff;
+        color: #ffffff;
+      }
+
+      .content-list tr:hover {
+        background-color: #bfe4f7;
+        color: #000000;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form id="settings-form">
+      <table>
+        <tbody>
+          <tr>
+            <td>Default state</td>
+            <td>
+              <input type="radio" name="default_state" id="default-state-on" />
+              <label for="default-state-on">JS on</label>
+
+              <input type="radio" name="default_state" id="default-state-off" />
+              <label for="default-state-off">JS off</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Disable behavior</td>
+            <td>
+              <input type="radio" name="disable_behavior" id="disable-behavior-domain" />
+              <label for="disable-behavior-domain">By domain</label>
+
+              <input type="radio" name="disable_behavior" id="disable-behavior-tab" />
+              <label for="disable-behavior-tab">By tab</label>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="2">
+              Domain list<br />
+              <table>
+                <thead>
+                  <tr>
+                    <th>Site</th>
+                    <th>Date added</th>
+                  </tr>
+                </thead>
+                <tfoot>
+                  <tr>
+                    <td colspan="2">
+                      <input type="button" disabled="disabled" id="remove" value="Remove" />
+                      <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+                    </td>
+                  </tr>
+                </tfoot>
+
+                <tbody id="table-list" class="content-list"></tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+    <script src="options.js"></script>
+  </body>
+</html>

@@ -219,4 +219,24 @@
       });
     }
   });
+
+  /**
+   * Create the menu item to open the settings page.
+   */
+  browser.menus.create({
+    id: 'settings',
+    title: browser.i18n.getMessage('menuItemSettings'),
+    contexts: ['browser_action']
+  });
+
+  /**
+   * Open the settings page when the menu item was clicked.
+   */
+  browser.menus.onClicked.addListener(function(info, tab) {
+    switch (info.menuItemId) {
+      case 'settings':
+        browser.runtime.openOptionsPage();
+        break;
+    }
+  });
 })(browser);

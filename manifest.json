@@ -5,12 +5,14 @@
   "version": "1.2.0",
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "homepage_url": "https://github.com/dpacassi/disable-javascript",
+  "default_locale": "en",
   "icons": {
     "40": "icons/40/app.png",
     "48": "icons/48/app.png",
     "128": "icons/128/app.png"
   },
   "browser_action": {
+    "browser_style": false,
     "default_icon": {
       "40": "icons/40/js-on.png",
       "48": "icons/48/js-on.png",
@@ -24,12 +26,18 @@
     ],
     "persistent": true
   },
+  "options_ui": {
+    "browser_style": false,
+    "open_in_tab": true,
+    "page": "options/options.html"
+  },
   "permissions": [
     "<all_urls>",
     "activeTab",
     "storage",
     "tabs",
     "webRequest",
-    "webRequestBlocking"
+    "webRequestBlocking",
+    "menus"
   ]
 }
