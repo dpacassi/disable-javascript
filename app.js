@@ -301,6 +301,20 @@
   });
 
   /**
+   * Listen to messages from options.js.
+   */
+  browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    switch (request.type) {
+      // Change the default icon if the default state changes.
+      case 'default_state':
+        if (typeof browser.browserAction.setIcon !== 'undefined') {
+          browser.browserAction.setIcon(getIcon(request.default_state === 'on'));
+        }
+        break;
+    }
+  });
+
+  /**
    * Ensure all needed settings are set.
    */
   browser.runtime.onInstalled.addListener(function(details) {

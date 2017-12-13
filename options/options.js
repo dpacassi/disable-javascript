@@ -125,8 +125,15 @@ function domContentLoaded() {
     var setting = {};
 
     setting[_settingsPrefix + this.name] = this.value;
-
     browser.storage.local.set(setting);
+
+    if (this.name === 'default_state') {
+      // Notify app.js about the change.
+      browser.runtime.sendMessage({
+        type: 'default_state',
+        default_state: this.value
+      });
+    }
   }
 
   /**
