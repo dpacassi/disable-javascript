@@ -11,6 +11,10 @@
     'setting-default_state': 'on',
     'setting-disable_behavior': 'domain'
   };
+  var tabSettings = {};
+  var _defaultState = 'on';
+  var _disableBehavior = 'domain';
+  var _settingsPrefix = 'setting-';
 
   if (typeof browser === 'undefined') {
     // If browser is not defined, the plugin was loaded into Google Chrome.
@@ -52,9 +56,50 @@
   }
 
   /**
+   * Gets the setting value for a key.
+   */
+  function getSetting(name) {
+    name = _settingsPrefix + name;
+
+    return new Promise(function(resolve) {
+      if (promises) {
+        browser.storage.local.get(name).then(function(items) {
+          resolve(items[name]);
+        });
+      } else {
+        browser.storage.local.get(name, function(items) {
+          resolve(items[name]);
+        });
+      }
+    });
+  }
+
+  /**
+   * Returns a promise with the default state value.
+   */
+  function getDefaultState() {
+    return new Promise(function(resolve) {
+      getSetting('default_state').then(function(result) {
+        resolve(result);
+      });
+    });
+  }
+
+  /**
+   * Returns a promise with the default disable behavior.
+   */
+  function getDisableBehavior() {
+    return new Promise(function(resolve) {
+      getSetting('disable_behavior').then(function(result) {
+        resolve(result);
+      });
+    });
+  }
+
+  /**
    * Checks if a host is blacklisted or not.
    */
-  function isBlacklisted(host) {
+  function isBlacklistedHost(host) {
     return new Promise(function(resolve) {
       if (promises) {
         browser.storage.local.get(host).then(function(items) {
@@ -69,19 +114,33 @@
   }
 
   /**
-   * Returns a promise with the default state value.
+   * Checks if JS is enabled for a given host and tab.
    */
-  function getDefaultState() {
+  function isJSEnabled(host, tabId) {
     return new Promise(function(resolve) {
-      if (promises) {
-        browser.storage.local.get('setting-default_state').then(function(items) {
-          resolve(items['setting-default_state']);
+      getDefaultState().then(function(defaultState) {
+        getDisableBehavior().then(function(disableBehavior) {
+          if (disableBehavior === 'domain') {
+            // Disable behavior by domain.
+            isBlacklistedHost(host).then(function(blacklisted) {
+              if (blacklisted) {
+                resolve(!blacklisted);
+              } else {
+                resolve(defaultState === 'on');
+              }
+            });
+          } else if (disableBehavior === 'tab') {
+            // Disable behavior by tab.
+            var jsEnabled = defaultState === 'on';
+
+            if (typeof tabId !== 'undefined' && tabSettings.hasOwnProperty(tabId)) {
+              jsEnabled = tabSettings[tabId];
+            }
+
+            resolve(jsEnabled);
+          }
         });
-      } else {
-        browser.storage.local.get('setting-default_state', function(items) {
-          resolve(items['setting-default_state']);
-        });
-      }
+      });
     });
   }
 
@@ -126,8 +185,8 @@
 
     if (promises) {
       return new Promise(function(resolve) {
-        isBlacklisted(host).then(function(blacklisted) {
-          if (blacklisted) {
+        isJSEnabled(host, details.tabId).then(function(jsEnabled) {
+          if (!jsEnabled) {
             headers.push({
               name: 'Content-Security-Policy',
               value: "script-src 'none';"
@@ -138,13 +197,19 @@
         });
       });
     } else {
-      var blacklisted = false;
+      var jsEnabled = _defaultState === 'on';
 
-      if (host in customStorage) {
-        blacklisted = customStorage[host];
+      if (_disableBehavior === 'domain') {
+        if (customStorage.hasOwnProperty(host)) {
+          jsEnabled = customStorage[host];
+        }
+      } else if (_disableBehavior === 'tab') {
+        if (tabSettings.hasOwnProperty(tab.id)) {
+          jsEnabled = tabSettings[tab.id];
+        }
       }
 
-      if (blacklisted) {
+      if (!jsEnabled) {
         headers.push({
           name: 'Content-Security-Policy',
           value: "script-src 'none';"
@@ -161,7 +226,7 @@
   function initCustomStorage(details) {
     var host = new URL(details.url).hostname;
 
-    isBlacklisted(host).then(function(blacklisted) {
+    isBlacklistedHost(host).then(function(blacklisted) {
       customStorage[host] = blacklisted;
     });
   }
@@ -201,27 +266,20 @@
   browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var url = changeInfo.url || tab.url;
 
-    getDefaultState().then(function(defaultState) {
-      if (url) {
-        var host = new URL(url).hostname;
-        isBlacklisted(host).then(function(blacklisted) {
-          var jsEnabled = defaultState === 'on';
+    if (url) {
+      var host = new URL(url).hostname;
 
-          if (blacklisted) {
-            jsEnabled = false;
-          }
+      isJSEnabled(host, tabId).then(function(jsEnabled) {
+        if (typeof browser.browserAction.setIcon !== 'undefined') {
+          browser.browserAction.setIcon(getIcon(jsEnabled, tabId));
+        }
 
-          if (typeof browser.browserAction.setIcon !== 'undefined') {
-            browser.browserAction.setIcon(getIcon(jsEnabled, tabId));
-          }
-
-          browser.browserAction.setTitle({
-            title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
-            tabId: tabId
-          });
+        browser.browserAction.setTitle({
+          title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
+          tabId: tabId
         });
-      }
-    });
+      });
+    }
   });
 
   /**
@@ -232,32 +290,54 @@
   browser.browserAction.onClicked.addListener(function(tab) {
     var host = new URL(tab.url).hostname;
 
-    isBlacklisted(host).then(function(blacklisted) {
-      if (blacklisted) {
-        if (promises) {
-          browser.storage.local.remove(host).then(function() {
-            browser.tabs.reload();
-          });
-        } else {
-          browser.storage.local.remove(host, function() {
-            browser.tabs.update(tab.id, {url: tab.url});
-          });
-        }
-      } else {
-        var item = {};
+    getDefaultState().then(function(defaultState) {
+      getDisableBehavior().then(function(disableBehavior) {
+        console.log('disableBehavior', disableBehavior);
 
-        item[host] = (new Date()).toISOString();
+        if (disableBehavior === 'domain') {
+          isBlacklistedHost(host).then(function(blacklisted) {
+            if (blacklisted) {
+              if (promises) {
+                browser.storage.local.remove(host).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.remove(host, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
+            } else {
+              var item = {};
 
-        if (promises) {
-          browser.storage.local.set(item).then(function() {
+              item[host] = (new Date()).toISOString();
+
+              if (promises) {
+                browser.storage.local.set(item).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.set(item, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
+            }
+          });
+        } else if (disableBehavior === 'tab') {
+          var jsEnabled = defaultState === 'on';
+
+          if (tabSettings.hasOwnProperty(tab.id)) {
+            jsEnabled = tabSettings[tab.id];
+          }
+
+          tabSettings[tab.id] = !jsEnabled;
+
+          if (promises) {
             browser.tabs.reload();
-          });
-        } else {
-          browser.storage.local.set(item, function() {
+          } else {
             browser.tabs.update(tab.id, {url: tab.url});
-          });
+          }
         }
-      }
+      });
     });
   });
 
@@ -307,9 +387,16 @@
     switch (request.type) {
       // Change the default icon if the default state changes.
       case 'default_state':
+        _defaultState = request.default_state;
+
         if (typeof browser.browserAction.setIcon !== 'undefined') {
           browser.browserAction.setIcon(getIcon(request.default_state === 'on'));
         }
+
+        break;
+
+      case 'disable_behavior':
+        _disableBehavior = request.disable_behavior;
         break;
     }
   });
@@ -326,5 +413,15 @@
    */
   browser.runtime.onUpdateAvailable.addListener(function(details) {
     preEnsureSettings();
+  });
+
+  // Init the _defaultState variable with the settings value.
+  getDefaultState().then(function(defaultState) {
+    _defaultState = defaultState;
+  });
+
+  // Init the _disableBehavior variable with the settings value.
+  getDisableBehavior().then(function(disableBehavior) {
+    _disableBehavior = disableBehavior;
   });
 })(browser);

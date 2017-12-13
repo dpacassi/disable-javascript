@@ -127,10 +127,15 @@ function domContentLoaded() {
     setting[_settingsPrefix + this.name] = this.value;
     browser.storage.local.set(setting);
 
+    // Notify app.js about the change.
     if (this.name === 'default_state') {
-      // Notify app.js about the change.
       browser.runtime.sendMessage({
         type: 'default_state',
+        default_state: this.value
+      });
+    } else if (this.name === 'disable_behavior') {
+      browser.runtime.sendMessage({
+        type: 'disable_behavior',
         default_state: this.value
       });
     }
