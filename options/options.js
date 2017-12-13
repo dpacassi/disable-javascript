@@ -114,7 +114,20 @@ function domContentLoaded() {
    */
   function removeAll() {
     if (confirm('Are you sure to clear your domain list?')) {
-      browser.storage.local.clear().then(preBuildList);
+      var settings = {};
+
+      for (var i = 0; i < _settings.length; i++) {
+        var name = _settings[i].name;
+        var value = document.querySelector('input[name="' + name + '"]:checked').value;
+
+        settings[_settingsPrefix + name] = value;
+      }
+
+      browser.storage.local.clear().then(function() {
+        browser.storage.local.set(settings).then(function() {
+          preBuildList();
+        });
+      });
     }
   }
 
