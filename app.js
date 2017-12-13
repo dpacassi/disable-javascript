@@ -292,8 +292,6 @@
 
     getDefaultState().then(function(defaultState) {
       getDisableBehavior().then(function(disableBehavior) {
-        console.log('disableBehavior', disableBehavior);
-
         if (disableBehavior === 'domain') {
           isBlacklistedHost(host).then(function(blacklisted) {
             if (blacklisted) {
@@ -329,7 +327,13 @@
             jsEnabled = tabSettings[tab.id];
           }
 
-          tabSettings[tab.id] = !jsEnabled;
+          jsEnabled = !jsEnabled;
+          tabSettings[tab.id] = jsEnabled;
+
+          // Remove flickering when browsing to a new site.
+          if (typeof browser.browserAction.setIcon !== 'undefined') {
+            browser.browserAction.setIcon(getIcon(jsEnabled, tab.id));
+          }
 
           if (promises) {
             browser.tabs.reload();
