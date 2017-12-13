@@ -28,7 +28,7 @@
   }
 
   /**
-   * Returns the correct app icon depending on the browser and blacklisted status.
+   * Returns the correct app icon depending on the browser and JS status.
    */
   function getIcon(jsEnabled, tabId) {
     var icon = {};
