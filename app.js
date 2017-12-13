@@ -7,6 +7,10 @@
   var customStorage = {};
   var listenUrls = ['<all_urls>'];
   var browserName = 'firefox';
+  var defaultSettings = {
+    'setting-default_state': 'on',
+    'setting-disable_behavior': 'domain'
+  };
 
   if (typeof browser === 'undefined') {
     // If browser is not defined, the plugin was loaded into Google Chrome.
@@ -26,17 +30,17 @@
   /**
    * Returns the correct app icon depending on the browser and blacklisted status.
    */
-  function getIcon(blacklisted, tabId) {
+  function getIcon(jsEnabled, tabId) {
     var icon = {};
 
     if (browserName === 'edge') {
       icon.path = {
-        '40': blacklisted ? 'icons/40/js-off.png' : 'icons/40/js-on.png'
+        '40': jsEnabled ? 'icons/40/js-on.png' : 'icons/40/js-off.png'
       };
     } else {
       icon.path = {
-        '48': blacklisted ? 'icons/48/js-off.png' : 'icons/48/js-on.png',
-        '128': blacklisted ? 'icons/128/js-off.png' : 'icons/128/js-on.png'
+        '48': jsEnabled ? 'icons/48/js-on.png' : 'icons/48/js-off.png',
+        '128': jsEnabled ? 'icons/128/js-on.png' : 'icons/128/js-off.png'
       };
     }
 
@@ -53,8 +57,8 @@
   function isBlacklisted(host) {
     return new Promise(function(resolve) {
       if (promises) {
-        browser.storage.local.get(host).then(function(item) {
-          resolve(host in item);
+        browser.storage.local.get(host).then(function(items) {
+          resolve(host in items);
         });
       } else {
         browser.storage.local.get(host, function(items) {
@@ -62,6 +66,54 @@
         });
       }
     });
+  }
+
+  /**
+   * Returns a promise with the default state value.
+   */
+  function getDefaultState() {
+    return new Promise(function(resolve) {
+      if (promises) {
+        browser.storage.local.get('setting-default_state').then(function(items) {
+          resolve(items['setting-default_state']);
+        });
+      } else {
+        browser.storage.local.get('setting-default_state', function(items) {
+          resolve(items['setting-default_state']);
+        });
+      }
+    });
+  }
+
+  /**
+   * Helper to ensure that at least default settings are set.
+   */
+  function ensureSettings(settingValues) {
+    for (var setting in defaultSettings) {
+      if (!settingValues.hasOwnProperty(setting)) {
+        var settingObject = {};
+        settingObject[setting] = defaultSettings[setting];
+
+        browser.storage.local.set(settingObject);
+      }
+    }
+  }
+
+  /**
+   * Helper to ensure that at least default settings are set.
+   */
+  function preEnsureSettings() {
+    var settingNames = [];
+
+    for (var setting in defaultSettings) {
+      settingNames.push(setting);
+    }
+
+    if (promises) {
+      browser.storage.local.get(settingNames).then(ensureSettings);
+    } else {
+      browser.storage.local.get(settingNames, ensureSettings);
+    }
   }
 
   /**
@@ -149,19 +201,27 @@
   browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var url = changeInfo.url || tab.url;
 
-    if (url) {
-      var host = new URL(url).hostname;
-      isBlacklisted(host).then(function(blacklisted) {
-        if (typeof browser.browserAction.setIcon !== 'undefined') {
-          browser.browserAction.setIcon(getIcon(blacklisted, tabId));
-        }
+    getDefaultState().then(function(defaultState) {
+      if (url) {
+        var host = new URL(url).hostname;
+        isBlacklisted(host).then(function(blacklisted) {
+          var jsEnabled = defaultState === 'on';
 
-        browser.browserAction.setTitle({
-          title: (blacklisted ? 'Enable' : 'Disable') + ' Javascript',
-          tabId: tabId
+          if (blacklisted) {
+            jsEnabled = false;
+          }
+
+          if (typeof browser.browserAction.setIcon !== 'undefined') {
+            browser.browserAction.setIcon(getIcon(jsEnabled, tabId));
+          }
+
+          browser.browserAction.setTitle({
+            title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
+            tabId: tabId
+          });
         });
-      });
-    }
+      }
+    });
   });
 
   /**
@@ -238,5 +298,19 @@
         browser.runtime.openOptionsPage();
         break;
     }
+  });
+
+  /**
+   * Ensure all needed settings are set.
+   */
+  browser.runtime.onInstalled.addListener(function(details) {
+    preEnsureSettings();
+  });
+
+  /**
+   * Ensure all needed settings are set.
+   */
+  browser.runtime.onUpdateAvailable.addListener(function(details) {
+    preEnsureSettings();
   });
 })(browser);
