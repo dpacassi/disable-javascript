@@ -1,4 +1,31 @@
-function restoreOptions() {
+function domContentLoaded() {
+
+  var _settings = [{
+    label: 'Default state',
+    name: 'default_state',
+    type: 'radio',
+    options: [{
+      label: 'JS on',
+      value: 'on'
+    }, {
+      label: 'JS off',
+      value: 'off'
+    }]
+  }, {
+    label: 'Disable behavior',
+    name: 'disable_behavior',
+    type: 'radio',
+    options: [{
+      label: 'By domain',
+      value: 'domain'
+    }, {
+      label: 'By tab',
+      value: 'tab'
+    }]
+  }];
+
+  var _settingsPrefix = 'setting-';
+
   /**
    * Builds the domain list.
    */
@@ -9,14 +36,15 @@ function restoreOptions() {
     var entries = [];
 
     for (var key in result) {
-      entries.push(key);
-      hasEntries = true;
+      if (!key.startsWith(_settingsPrefix)) {
+        entries.push(key);
+        hasEntries = true;
+      }
     }
 
     for (var i = entries.length - 1; i >= 0; i--) {
       var key = entries[i];
       var dateAdded = new Date(result[key]);
-      console.log(dateAdded);
 
       newHTML += '<tr>';
       newHTML += '<td>' + key + '</td>';
@@ -90,14 +118,81 @@ function restoreOptions() {
     }
   }
 
+  /**
+   * Saves the a web extension setting.
+   */
+  function saveSetting() {
+    var setting = {};
+
+    setting[_settingsPrefix + this.name] = this.value;
+
+    browser.storage.local.set(setting);
+  }
+
+  /**
+   * Builds the settings form.
+   */
+  function buildSettingsForm(settingValues) {
+    var html = '';
+
+    for (var i = 0; i < _settings.length; i++) {
+      var setting = _settings[i];
+
+      html += '<tr>';
+      html += '<td><label>' + setting.label + '</label></td>';
+      html += '<td>';
+
+      for (var k = 0; k < _settings[i].options.length; k++) {
+        var option = setting.options[k];
+        var id = setting.name + '-' + option.value;
+        var checked = '';
+
+        if (settingValues[_settingsPrefix + setting.name] === option.value) {
+          checked = ' checked="checked"';
+        }
+
+        html += '<input type="' + setting.type + '" name="' + setting.name + '" id="' + id + '" value="' + option.value + '"' + checked + ' />';
+        html += '<label for="' + id + '">' + option.label + '</label>';
+      }
+
+      html += '</td>';
+      html += '</tr>';
+    }
+
+    document.getElementById('settings').innerHTML = html;
+
+    // Save settings when changing them.
+    var radios = document.querySelectorAll('input[type=radio]');
+
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].addEventListener('click', saveSetting);
+    }
+  }
+
+  /**
+   * Helper for building our settings form.
+   */
+  function preBuildSettingsForm() {
+    var settingNames = [];
+
+    for (var i = 0; i < _settings.length; i++) {
+      settingNames.push(_settingsPrefix + _settings[i].name);
+    }
+
+    browser.storage.local.get(settingNames).then(buildSettingsForm);
+  }
+
   //-------- Init.
 
   // Mark the remove buttons as disabled.
-  buttons = document.querySelectorAll('input[type=button]');
+  var buttons = document.querySelectorAll('input[type=button]');
 
   for (var i = 0; i < buttons.length; i++) {
     buttons[i].disabled = true;
   }
+
+  // Build our settings.
+  preBuildSettingsForm();
 
   // Build the domain list.
   preBuildList();
@@ -107,4 +202,4 @@ function restoreOptions() {
   document.getElementById('remove-all').addEventListener('click', removeAll);
 }
 
-document.addEventListener('DOMContentLoaded', restoreOptions);
+document.addEventListener('DOMContentLoaded', domContentLoaded);

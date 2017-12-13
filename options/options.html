@@ -37,48 +37,30 @@
   </head>
 
   <body>
-    <form id="settings-form">
+    <form>
+      <table>
+        <tbody id="settings"></tbody>
+      </table>
+
       <table>
         <tbody>
           <tr>
-            <td>Default state</td>
-            <td>
-              <input type="radio" name="default_state" id="default-state-on" />
-              <label for="default-state-on">JS on</label>
-
-              <input type="radio" name="default_state" id="default-state-off" />
-              <label for="default-state-off">JS off</label>
-            </td>
-          </tr>
-
-          <tr>
-            <td>Disable behavior</td>
-            <td>
-              <input type="radio" name="disable_behavior" id="disable-behavior-domain" />
-              <label for="disable-behavior-domain">By domain</label>
-
-              <input type="radio" name="disable_behavior" id="disable-behavior-tab" />
-              <label for="disable-behavior-tab">By tab</label>
-            </td>
-          </tr>
-
-          <tr>
             <td colspan="2">
-              Domain list<br />
+              <label>Domain list</label><br />
               <table>
                 <thead>
-                  <tr>
-                    <th>Site</th>
-                    <th>Date added</th>
-                  </tr>
+                <tr>
+                  <th>Site</th>
+                  <th>Date added</th>
+                </tr>
                 </thead>
                 <tfoot>
-                  <tr>
-                    <td colspan="2">
-                      <input type="button" disabled="disabled" id="remove" value="Remove" />
-                      <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
-                    </td>
-                  </tr>
+                <tr>
+                  <td colspan="2">
+                    <input type="button" disabled="disabled" id="remove" value="Remove" />
+                    <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+                  </td>
+                </tr>
                 </tfoot>
 
                 <tbody id="table-list" class="content-list"></tbody>
