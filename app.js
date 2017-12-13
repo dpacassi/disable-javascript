@@ -330,11 +330,6 @@
           jsEnabled = !jsEnabled;
           tabSettings[tab.id] = jsEnabled;
 
-          // Remove flickering when browsing to a new site.
-          if (typeof browser.browserAction.setIcon !== 'undefined') {
-            browser.browserAction.setIcon(getIcon(jsEnabled, tab.id));
-          }
-
           if (promises) {
             browser.tabs.reload();
           } else {
