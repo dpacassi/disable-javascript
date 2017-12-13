@@ -92,8 +92,18 @@ function domContentLoaded() {
     document.getElementById('remove').disabled = true;
     document.getElementById('remove-all').disabled = true;
 
-    var list = browser.storage.local.get();
-    list.then(buildList);
+    browser.storage.local.get(_settingsPrefix + 'disable_behavior').then(function(result) {
+      if (result[_settingsPrefix + 'disable_behavior'] === 'domain') {
+        document.body.classList.remove('disable-behavior--tab');
+
+        var list = browser.storage.local.get();
+        list.then(buildList);
+      } else {
+        // Don't build the list but hide the whole table.
+        document.body.classList.add('disable-behavior--tab');
+      }
+    });
+
   }
 
   /**
@@ -151,6 +161,9 @@ function domContentLoaded() {
         type: 'disable_behavior',
         default_state: this.value
       });
+
+      // Re-build the domain list if this value changed.
+      preBuildList();
     }
   }
 
