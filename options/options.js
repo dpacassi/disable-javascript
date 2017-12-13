@@ -30,7 +30,7 @@ function domContentLoaded() {
    * Builds the domain list.
    */
   function buildList(result) {
-    var tableList = document.getElementById('table-list');
+    var tbody = document.getElementById('domain-list--tbody');
     var newHTML = '';
     var hasEntries = false;
     var entries = [];
@@ -52,10 +52,10 @@ function domContentLoaded() {
       newHTML += '</tr>';
     }
 
-    tableList.innerHTML = newHTML;
+    tbody.innerHTML = newHTML;
 
     // Attach on row click events.
-    var rows = tableList.querySelectorAll('tr');
+    var rows = tbody.querySelectorAll('tr');
 
     for (var i = 0; i < rows.length; i++) {
       rows[i].addEventListener('click', function() {
@@ -64,7 +64,7 @@ function domContentLoaded() {
           this.classList.remove('active');
         } else {
           // Remove the active class from all other rows.
-          var otherRows = tableList.querySelectorAll('tr.active');
+          var otherRows = tbody.querySelectorAll('tr.active');
 
           for (var k = 0; k < otherRows.length; k++) {
             otherRows[k].classList.remove('active');
@@ -110,7 +110,7 @@ function domContentLoaded() {
    * Removes the host of tr.active from the list.
    */
   function remove() {
-    var rows = document.querySelectorAll('#table-list tr.active');
+    var rows = document.querySelectorAll('#domain-list--tbody tr.active');
 
     for (var i = 0; i < rows.length; i++) {
       var host = rows[i].childNodes[0].innerHTML;
@@ -220,6 +220,23 @@ function domContentLoaded() {
     browser.storage.local.get(settingNames).then(buildSettingsForm);
   }
 
+  function search() {
+    var rows = document.getElementById('domain-list--tbody').getElementsByTagName('tr');
+
+    for (var i = 0; i < rows.length; i++) {
+      var cell = rows[i].getElementsByTagName('td')[0];
+
+      if (cell) {
+        if (cell.innerHTML.toUpperCase().indexOf(this.value.toUpperCase()) > -1) {
+          rows[i].style.display = "";
+        } else {
+          rows[i].style.display = "none";
+        }
+      }
+    }
+    console.log('woot', this.value);
+  }
+
   //-------- Init.
 
   // Mark the remove buttons as disabled.
@@ -238,6 +255,10 @@ function domContentLoaded() {
   // Define remove actions.
   document.getElementById('remove').addEventListener('click', remove);
   document.getElementById('remove-all').addEventListener('click', removeAll);
+
+  // Init search.
+  document.getElementById('search').value = '';
+  document.getElementById('search').addEventListener('keyup', search);
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);

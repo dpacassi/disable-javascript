@@ -10,10 +10,13 @@
       }
 
       th {
-        background-color: #ebebeb;
-        color: #808080;
         font-weight: normal;
         text-align: left;
+      }
+
+      tr.colored th {
+        background-color: #ebebeb;
+        color: #808080;
       }
 
       .content-list td {
@@ -34,7 +37,11 @@
         color: #000000;
       }
 
-      .disable-behavior--tab #domain-list {
+      #domain-list--table {
+        margin-top: 1rem;
+      }
+
+      .disable-behavior--tab #domain-list--table {
         display: none;
       }
     </style>
@@ -42,36 +49,35 @@
 
   <body>
     <form>
+      <!-- Settings table -->
       <table>
         <tbody id="settings"></tbody>
       </table>
 
-      <table id="domain-list">
-        <tbody>
+      <!-- Domain list -->
+      <table id="domain-list--table">
+        <thead>
+          <tr>
+            <th colspan="2"><label>Domain list</label></th>
+          </tr>
+          <tr>
+            <th colspan="2"><input type="text" id="search" placeholder="Search by domain" value="" /></th>
+          </tr>
+          <tr class="colored">
+            <th>Site</th>
+            <th>Date added</th>
+          </tr>
+        </thead>
+        <tfoot>
           <tr>
             <td colspan="2">
-              <label>Domain list</label><br />
-              <table>
-                <thead>
-                <tr>
-                  <th>Site</th>
-                  <th>Date added</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                  <td colspan="2">
-                    <input type="button" disabled="disabled" id="remove" value="Remove" />
-                    <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
-                  </td>
-                </tr>
-                </tfoot>
-
-                <tbody id="table-list" class="content-list"></tbody>
-              </table>
+              <input type="button" disabled="disabled" id="remove" value="Remove" />
+              <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
             </td>
           </tr>
-        </tbody>
+        </tfoot>
+
+        <tbody id="domain-list--tbody" class="content-list"></tbody>
       </table>
     </form>
 
