@@ -97,9 +97,9 @@
   }
 
   /**
-   * Checks if a host is blacklisted or not.
+   * Checks if a host is listed.
    */
-  function isBlacklistedHost(host) {
+  function isListedHost(host) {
     return new Promise(function(resolve) {
       if (promises) {
         browser.storage.local.get(host).then(function(items) {
@@ -122,12 +122,14 @@
         getDisableBehavior().then(function(disableBehavior) {
           if (disableBehavior === 'domain') {
             // Disable behavior by domain.
-            isBlacklistedHost(host).then(function(blacklisted) {
-              if (blacklisted) {
-                resolve(!blacklisted);
-              } else {
-                resolve(defaultState === 'on');
+            isListedHost(host).then(function(listed) {
+              var jsEnabled = false;
+
+              if ((defaultState === 'on' && !listed) || (defaultState !== 'on' && listed)) {
+                jsEnabled = true;
               }
+
+              resolve(jsEnabled);
             });
           } else if (disableBehavior === 'tab') {
             // Disable behavior by tab.
@@ -177,7 +179,7 @@
 
   /**
    * Adds a 'Content-Security-Policy' response header with "script-src 'none'"
-   * if the given host is blacklisted.
+   * depending on the host and tabId.
    */
   function addHeader(details) {
     var host = new URL(details.url).hostname;
@@ -221,13 +223,13 @@
   }
 
   /**
-   * Checks if a host is blacklisted or not and saves it in our 'customStorage'.
+   * Checks if a host is listed or not and saves it in our 'customStorage'.
    */
   function initCustomStorage(details) {
     var host = new URL(details.url).hostname;
 
-    isBlacklistedHost(host).then(function(blacklisted) {
-      customStorage[host] = blacklisted;
+    isListedHost(host).then(function(listed) {
+      customStorage[host] = listed;
     });
   }
 
@@ -235,7 +237,7 @@
     /**
      * On browsers without promises, we need can't add a onHeadersReceived listener
      * returning a promise/callback.
-     * Therefor, check if the host is blacklisted already with a onBeforeRequest
+     * Therefor, check if the host is listed already with a onBeforeRequest
      * listener and use a custom Storage.
      */
     browser.webRequest.onBeforeRequest.addListener(
@@ -283,7 +285,7 @@
   });
 
   /**
-   * Update our blacklist when the user interacts with the app icon (or the
+   * Update the JS state when the user interacts with the app icon (or the
    * menu item in Firefox for Android).
    * Also updates and reloads the specific tab.
    */
@@ -293,8 +295,8 @@
     getDefaultState().then(function(defaultState) {
       getDisableBehavior().then(function(disableBehavior) {
         if (disableBehavior === 'domain') {
-          isBlacklistedHost(host).then(function(blacklisted) {
-            if (blacklisted) {
+          isListedHost(host).then(function(listed) {
+            if (listed) {
               if (promises) {
                 browser.storage.local.remove(host).then(function() {
                   browser.tabs.reload();
