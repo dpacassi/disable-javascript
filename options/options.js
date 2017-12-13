@@ -34,6 +34,7 @@ function domContentLoaded() {
     var newHTML = '';
     var hasEntries = false;
     var entries = [];
+    var search = document.getElementById('search');
 
     for (var key in result) {
       if (!key.startsWith(_settingsPrefix)) {
@@ -50,6 +51,16 @@ function domContentLoaded() {
       newHTML += '<td>' + key + '</td>';
       newHTML += '<td>' + dateAdded.toLocaleDateString() + ' ' + dateAdded.toLocaleTimeString() + '</td>';
       newHTML += '</tr>';
+    }
+
+    if (newHTML.length === 0) {
+      newHTML += '<tr>';
+      newHTML += '<td class="empty" colspan="2">' + 'The list is empty.' + '</td>';
+      newHTML += '</tr>';
+
+      search.disabled = true;
+    } else {
+      search.disabled = false;
     }
 
     tbody.innerHTML = newHTML;
@@ -220,7 +231,7 @@ function domContentLoaded() {
     browser.storage.local.get(settingNames).then(buildSettingsForm);
   }
 
-  function search() {
+  function executeSearch() {
     var rows = document.getElementById('domain-list--tbody').getElementsByTagName('tr');
 
     for (var i = 0; i < rows.length; i++) {
@@ -234,7 +245,6 @@ function domContentLoaded() {
         }
       }
     }
-    console.log('woot', this.value);
   }
 
   //-------- Init.
@@ -258,7 +268,7 @@ function domContentLoaded() {
 
   // Init search.
   document.getElementById('search').value = '';
-  document.getElementById('search').addEventListener('keyup', search);
+  document.getElementById('search').addEventListener('keyup', executeSearch);
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);
