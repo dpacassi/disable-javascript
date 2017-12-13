@@ -23,8 +23,7 @@
   "background": {
     "scripts": [
       "app.js"
-    ],
-    "persistent": true
+    ]
   },
   "options_ui": {
     "browser_style": false,
