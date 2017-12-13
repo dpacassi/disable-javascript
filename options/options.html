@@ -37,7 +37,7 @@
         color: #000000;
       }
 
-      #domain-list--table {
+      fieldset + fieldset {
         margin-top: 1rem;
       }
 
@@ -50,16 +50,20 @@
   <body>
     <form>
       <!-- Settings table -->
-      <table>
-        <tbody id="settings"></tbody>
-      </table>
+      <fieldset>
+        <legend>Disable JavaScript Settings</legend>
+
+        <table>
+          <tbody id="settings"></tbody>
+        </table>
+      </fieldset>
 
       <!-- Domain list -->
-      <table id="domain-list--table">
-        <thead>
-          <tr>
-            <th colspan="2"><label>Domain list</label></th>
-          </tr>
+      <fieldset>
+        <legend>Domain list</legend>
+
+        <table id="domain-list--table">
+          <thead>
           <tr>
             <th colspan="2"><input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" /></th>
           </tr>
@@ -67,18 +71,19 @@
             <th>Site</th>
             <th>Date added</th>
           </tr>
-        </thead>
-        <tfoot>
+          </thead>
+          <tfoot>
           <tr>
             <td colspan="2">
               <input type="button" disabled="disabled" id="remove" value="Remove" />
               <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
             </td>
           </tr>
-        </tfoot>
+          </tfoot>
 
-        <tbody id="domain-list--tbody" class="content-list"></tbody>
-      </table>
+          <tbody id="domain-list--tbody" class="content-list"></tbody>
+        </table>
+      </fieldset>
     </form>
 
     <script src="options.js"></script>
