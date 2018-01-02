@@ -1,0 +1,18 @@
+//-----------------------------------------------------------------------------
+// Components: Tables.
+//-----------------------------------------------------------------------------
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: $color-main;
+  color: $color-base-white;
+  text-align: left;
+
+  &.transparent {
+    background-color: inherit;
+  }
+}

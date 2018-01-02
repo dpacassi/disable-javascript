@@ -1,0 +1,34 @@
+//-----------------------------------------------------------------------------
+// Components: Forms.
+//-----------------------------------------------------------------------------
+
+fieldset {
+  border: solid 1px $color-base-black;
+
+  & + fieldset {
+    margin-top: 1rem;
+  }
+}
+
+label {
+  color: $color-base-black;
+}
+
+input[type=radio] {
+  display: none;
+
+  & + label {
+    border: solid 1px $color-main;
+    color: $color-main;
+    display: inline-block;
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    width: 7.5rem;
+  }
+
+  &:checked + label {
+    background-color: $color-main;
+    border-color: $color-main;
+    color: white;
+  }
+}

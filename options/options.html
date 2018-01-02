@@ -2,23 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>Disable JavaScript Settings</title>
+
+    <link href="./vendor/css/html5reset-1.6.1.css" rel="stylesheet" />
+    <link href="./dist/css/style.css" rel="stylesheet" />
 
     <style>
-      table {
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      th {
-        font-weight: normal;
-        text-align: left;
-      }
-
-      tr.colored th {
-        background-color: #ebebeb;
-        color: #808080;
-      }
-
       .content-list td {
         cursor: default;
       }
@@ -36,76 +25,54 @@
         background-color: #bfe4f7;
         color: #000000;
       }
-
-      fieldset + fieldset {
-        margin-top: 1rem;
-      }
-
-      .disable-behavior--tab #domain-list--table {
-        display: none;
-      }
-
-      input[type=radio] {
-        display: none;
-      }
-
-      input[type=radio] + label {
-        border: solid 1px #0a84ff;
-        color: #0a84ff;
-        display: inline-block;
-        text-align: center;
-        padding: 0.25rem 0.5rem;
-        width: 7.5rem;
-      }
-
-      input[type=radio]:checked + label {
-        background-color: #0a84ff;
-        color: white;
-      }
     </style>
   </head>
 
   <body>
-    <h1>Disable JavaScript settings</h1>
+    <main>
+      <section>
+        <h1>Disable JavaScript settings</h1>
 
-    <form>
-      <!-- Settings table -->
-      <fieldset>
-        <legend>Settings</legend>
+        <form>
+          <!-- Settings table -->
+          <fieldset>
+            <legend>Settings</legend>
 
-        <table>
-          <tbody id="settings"></tbody>
-        </table>
-      </fieldset>
+            <table>
+              <tbody id="settings"></tbody>
+            </table>
+          </fieldset>
 
-      <!-- Domain list -->
-      <fieldset>
-        <legend>Domain list</legend>
+          <!-- Domain list -->
+          <fieldset>
+            <legend>Domain list</legend>
 
-        <table id="domain-list--table">
-          <thead>
-          <tr>
-            <th colspan="2"><input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" /></th>
-          </tr>
-          <tr class="colored">
-            <th>Site</th>
-            <th>Date added</th>
-          </tr>
-          </thead>
-          <tfoot>
-          <tr>
-            <td colspan="2">
-              <input type="button" disabled="disabled" id="remove" value="Remove" />
-              <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
-            </td>
-          </tr>
-          </tfoot>
+            <table>
+              <thead>
+              <tr>
+                <th colspan="2" class="transparent"><input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" /></th>
+              </tr>
+              <tr>
+                <th>Site</th>
+                <th>Date added</th>
+              </tr>
+              </thead>
+              <tfoot>
+              <tr>
+                <td colspan="2">
+                  <input type="button" disabled="disabled" id="remove" value="Remove" />
+                  <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+                </td>
+              </tr>
+              </tfoot>
 
-          <tbody id="domain-list--tbody" class="content-list"></tbody>
-        </table>
-      </fieldset>
-    </form>
+              <tbody id="domain-list--tbody" class="content-list"></tbody>
+            </table>
+          </fieldset>
+        </form>
+      </section>
+    </main>
 
-    <script src="options.js"></script>
+    <script src="./dist/js/options.min.js"></script>
   </body>
 </html>

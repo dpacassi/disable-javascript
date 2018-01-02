@@ -1,0 +1,28 @@
+//-----------------------------------------------------------------------------
+// Helpers: Variables.
+//-----------------------------------------------------------------------------
+
+
+//----- Colors.
+
+$color-base-white: #ffffff;
+$color-base-black: #000000;
+
+$color-base-catskill-white: #ecf2f6;
+$color-base-slate-gray: #6f7e95;
+
+$color-background: $color-base-catskill-white;
+$color-main: $color-base-slate-gray;
+
+
+//----- Fonts.
+
+$font-path: './../../vendor/fonts';
+$font-family-default: 'Nunito', sans-serif;
+$font-size-default: 1rem;
+
+
+//----- Paddings.
+
+$padding-content-wrap-horizontal: 1rem;
+$padding-content-wrap-vertical: 1rem;
