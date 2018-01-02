@@ -1,11 +1,2 @@
-# Ignore IDE created files and directories.
-/.settings
-/.buildpath
-/.project
-/.idea
-
 # Ignore created XPI packages.
 disable-javascript@pacassi.ch.xpi
-
-# Ignore OS files.
-.DS_Store
