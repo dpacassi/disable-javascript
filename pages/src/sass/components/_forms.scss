@@ -4,7 +4,9 @@
 
 fieldset {
   border: solid 1px $color-base-black;
+  display: block;
   padding: 0.5rem;
+  width: 100%;
 
   & + fieldset {
     margin-top: 1.5rem;
@@ -42,6 +44,11 @@ input[type=radio] {
     border-color: $color-main;
     color: white;
   }
+}
+
+input[type=button] {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
 }
 
 .disable-behavior--tab #fieldset__domain-list {
