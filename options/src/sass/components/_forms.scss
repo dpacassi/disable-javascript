@@ -39,6 +39,10 @@ input[type=radio] {
   }
 }
 
+.disable-behavior--tab #fieldset__domain-list {
+  display: none;
+}
+
 .form-item-type--search {
   background-color: $color-base-white;
   margin: 0.5rem 0;
