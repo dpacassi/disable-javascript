@@ -209,8 +209,8 @@ var browser = browser;
           jsEnabled = customStorage[host];
         }
       } else if (_disableBehavior === 'tab') {
-        if (tabSettings.hasOwnProperty(tab.id)) {
-          jsEnabled = tabSettings[tab.id];
+        if (tabSettings.hasOwnProperty(details.tabId)) {
+          jsEnabled = tabSettings[details.tabId];
         }
       }
 
