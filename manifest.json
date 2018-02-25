@@ -42,7 +42,7 @@
   "commands": {
     "toggle-state": {
       "suggested_key": {
-        "default": "Ctrl+Shift+U"
+        "default": "Alt+1"
       },
       "description": "Toggle JavaScript"
     }
