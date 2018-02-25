@@ -367,7 +367,7 @@
   });
 
   /**
-   * Create the menu item to open the settings page.
+   * Create the browser action menu item to open the settings page.
    */
   browser.menus.create({
     id: 'settings',
@@ -376,12 +376,21 @@
   });
 
   /**
-   * Create the menu item to open the about page.
+   * Create the browser action menu item to open the about page.
    */
   browser.menus.create({
     id: 'about',
     title: 'About Disable JavaScript',
     contexts: ['browser_action']
+  });
+
+  /**
+   * Create the page menu item to toggle the JavaScript state.
+   */
+  browser.menus.create({
+    id: 'toggle-js',
+    title: 'Disable JavaScript',
+    contexts: ['page']
   });
 
   /**
@@ -395,6 +404,10 @@
 
       case 'about':
         browser.tabs.create({url: './pages/about.html'});
+        break;
+
+      case 'toggle-js':
+        toggleJSState(tab);
         break;
     }
   });
