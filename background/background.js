@@ -423,13 +423,7 @@
    */
   browser.runtime.onInstalled.addListener(function(details) {
     preEnsureSettings();
-  });
-
-  /**
-   * Ensure all needed settings are set.
-   */
-  browser.runtime.onUpdateAvailable.addListener(function(details) {
-    preEnsureSettings();
+    browser.tabs.create({url: './pages/about.html'});
   });
 
   // Init the _defaultState variable with the settings value.

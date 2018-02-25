@@ -24,8 +24,7 @@ No data of you will ever be logged and the web extension asks only for needed pe
 Pull requests are **welcome**!
 
 ## Support
-If you need any assistance or find any bugs, feel free to contact me directly via email or create a
-new issue on the [projects GitHub page](https://github.com/dpacassi/disable-javascript).
+If you need any assistance or find any bugs, feel free to create a new issue on the [projects GitHub page](https://github.com/dpacassi/disable-javascript).
 
 ## Future plans
 If the user base increases, it's possible to develop more features to this web extension, such as:
