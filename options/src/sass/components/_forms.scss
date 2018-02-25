@@ -27,13 +27,12 @@ input[type=radio] {
     color: $color-main;
     cursor: pointer;
     display: inline-block;
-    text-align: center;
     padding: 0.25rem 0.5rem;
+    text-align: center;
     width: 7.5rem;
   }
 
   &:checked + label {
-    background-color: $color-main;
     background-color: $color-main;
     border-color: $color-main;
     color: white;
