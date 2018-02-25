@@ -183,12 +183,12 @@ function domContentLoaded() {
     if (this.name === 'default_state') {
       browser.runtime.sendMessage({
         type: 'default_state',
-        default_state: this.value
+        value: this.value
       });
     } else if (this.name === 'disable_behavior') {
       browser.runtime.sendMessage({
         type: 'disable_behavior',
-        default_state: this.value
+        value: this.value
       });
 
       // Re-build the domain list if this value changed.

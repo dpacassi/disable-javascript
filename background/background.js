@@ -426,16 +426,15 @@ var browser = browser;
     switch (request.type) {
       // Change the default icon if the default state changes.
       case 'default_state':
-        _defaultState = request.default_state;
+        _defaultState = request.value;
 
         if (typeof browser.browserAction.setIcon !== 'undefined') {
-          browser.browserAction.setIcon(getIcon(request.default_state === 'on'));
+          browser.browserAction.setIcon(getIcon(request.value === 'on'));
         }
-
         break;
 
       case 'disable_behavior':
-        _disableBehavior = request.disable_behavior;
+        _disableBehavior = request.value;
         break;
     }
   });
