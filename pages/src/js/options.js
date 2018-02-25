@@ -1,5 +1,15 @@
-function domContentLoaded() {
 
+'use strict';
+
+var browser = browser;
+var promises = true;
+
+if (typeof browser === 'undefined') {
+  browser = chrome;
+  promises = false;
+}
+
+function domContentLoaded() {
   var _settings = [{
     label: 'Default state',
     name: 'default_state',
@@ -96,6 +106,21 @@ function domContentLoaded() {
     }
   }
 
+  function processPreBuildList(result) {
+    if (result[_settingsPrefix + 'disable_behavior'] === 'domain') {
+      document.body.classList.remove('disable-behavior--tab');
+
+      if (promises) {
+        browser.storage.local.get().then(buildList);
+      } else {
+        browser.storage.local.get(buildList);
+      }
+    } else {
+      // Don't build the list but hide the whole table.
+      document.body.classList.add('disable-behavior--tab');
+    }
+  }
+
   /**
    * Helper for building the domain list.
    */
@@ -103,18 +128,11 @@ function domContentLoaded() {
     document.getElementById('remove').disabled = true;
     document.getElementById('remove-all').disabled = true;
 
-    browser.storage.local.get(_settingsPrefix + 'disable_behavior').then(function(result) {
-      if (result[_settingsPrefix + 'disable_behavior'] === 'domain') {
-        document.body.classList.remove('disable-behavior--tab');
-
-        var list = browser.storage.local.get();
-        list.then(buildList);
-      } else {
-        // Don't build the list but hide the whole table.
-        document.body.classList.add('disable-behavior--tab');
-      }
-    });
-
+    if (promises) {
+      browser.storage.local.get(_settingsPrefix + 'disable_behavior').then(processPreBuildList);
+    } else {
+      browser.storage.local.get(_settingsPrefix + 'disable_behavior', processPreBuildList);
+    }
   }
 
   /**
@@ -228,7 +246,11 @@ function domContentLoaded() {
       settingNames.push(_settingsPrefix + _settings[i].name);
     }
 
-    browser.storage.local.get(settingNames).then(buildSettingsForm);
+    if (promises) {
+      browser.storage.local.get(settingNames).then(buildSettingsForm);
+    } else {
+      browser.storage.local.get(settingNames, buildSettingsForm);
+    }
   }
 
   function executeSearch() {
