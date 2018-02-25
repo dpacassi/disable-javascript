@@ -33,7 +33,7 @@ input[type=radio] {
     text-align: center;
     width: 7.5rem;
 
-    @media screen and (max-width: $breakpoint-3) {
+    @media screen and (max-width: $breakpoint-2) {
       font-size: 0.8rem;
       width: 5.5rem;
     }
