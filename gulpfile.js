@@ -9,10 +9,10 @@ var rename = require('gulp-rename');
 
 // Path settings.
 var paths = {
-  sass: './options/src/sass',
-  css: './options/dist/css',
-  js_src: './options/src/js',
-  js_dist: './options/dist/js'
+  sass: './pages/src/sass',
+  css: './pages/dist/css',
+  js_src: './pages/src/js',
+  js_dist: './pages/dist/js'
 };
 
 var options = {

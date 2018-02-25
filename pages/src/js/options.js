@@ -239,9 +239,9 @@ function domContentLoaded() {
 
       if (cell) {
         if (cell.innerHTML.toUpperCase().indexOf(this.value.toUpperCase()) > -1) {
-          rows[i].style.display = "";
+          rows[i].style.display = '';
         } else {
-          rows[i].style.display = "none";
+          rows[i].style.display = 'none';
         }
       }
     }
