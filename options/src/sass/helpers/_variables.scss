@@ -32,8 +32,16 @@ $font-size-default: 1rem;
 
 //----- Paddings.
 
-$padding-content-wrap-horizontal: 1rem;
+$padding-content-wrap-horizontal: 0.5rem;
 $padding-content-wrap-vertical: 1rem;
 
 //----- Content Wrap.
+
 $content-wrap-max-width: 75rem; // 1200px
+
+
+//----- Breakpoints.
+
+$breakpoint-1: 90.0rem; // 1440px
+$breakpoint-2: 64.0rem; // 1024px
+$breakpoint-3: 22.5rem; // 360px

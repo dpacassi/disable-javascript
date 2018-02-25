@@ -38,6 +38,11 @@ h4 { font-size: 1.250rem; }
 h5 { font-size: 1.125rem; }
 h6 { font-size: 1.000rem; }
 
+@media screen and (max-width: $breakpoint-3) {
+  html { font-size: 0.9rem; }
+  h1 { font-size: 1.565rem; }
+}
+
 ul,
 ol {
   list-style-position: outside;

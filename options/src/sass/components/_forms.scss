@@ -30,6 +30,11 @@ input[type=radio] {
     padding: 0.25rem 0.5rem;
     text-align: center;
     width: 7.5rem;
+
+    @media screen and (max-width: $breakpoint-3) {
+      font-size: 0.8rem;
+      width: 5.5rem;
+    }
   }
 
   &:checked + label {
