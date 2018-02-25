@@ -231,7 +231,7 @@ var browser = browser;
   function initCustomStorage(details) {
     var host = new URL(details.url).hostname;
 
-    isListedHost(host).then(function(listed) {
+    isJSEnabled(host).then(function(listed) {
       customStorage[host] = listed;
     });
   }
