@@ -376,12 +376,25 @@
   });
 
   /**
+   * Create the menu item to open the about page.
+   */
+  browser.menus.create({
+    id: 'about',
+    title: 'About Disable JavaScript',
+    contexts: ['browser_action']
+  });
+
+  /**
    * Open the settings page when the menu item was clicked.
    */
   browser.menus.onClicked.addListener(function(info, tab) {
     switch (info.menuItemId) {
       case 'settings':
         browser.runtime.openOptionsPage();
+        break;
+
+      case 'about':
+        browser.tabs.create({url: './pages/about.html'});
         break;
     }
   });
