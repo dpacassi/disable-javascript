@@ -23,7 +23,7 @@ body {
 }
 
 h1 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
 }
 
 h2,
@@ -56,16 +56,28 @@ h6 { font-size: 1.000rem; }
   h2 { font-size: 1.250rem; }
 }
 
+article {
+  background-color: $color-secondary;
+  border: solid 1px $color-base-black;
+  padding: 0.75rem;
+}
+
+p,
+li {
+  line-height: 1.125;
+}
+
 ul,
 ol {
   list-style-position: outside;
   list-style-type: none;
 }
 
-li + li {
-  margin-top: 0.5rem;
+* + article {
+  margin-top: 2rem;
 }
 
-p + p {
+* + p,
+* + li {
   margin-top: 0.5rem;
 }

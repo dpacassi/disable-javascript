@@ -27,29 +27,34 @@ td {
   }
 }
 
-#fieldset__domain-list tbody {
-  border: solid 1px $color-secondary;
-  border-top: none;
+#fieldset__domain-list {
+  table {
+    border: solid 1px $color-secondary;
 
-  tr {
-    background-color: $color-base-white;
+    tbody {
+      border-top: none;
 
-    &:nth-child(2) {
-      background-color: $color-secondary;
-    }
+      tr {
+        background-color: $color-base-white;
 
-    &.active {
-      background-color: $color-table-selected;
-      color: $color-base-white;
-    }
+        &:nth-child(2) {
+          background-color: $color-secondary;
+        }
 
-    &:hover {
-      background-color: $color-table-hover;
-      color: $color-base-black;
+        &.active {
+          background-color: $color-table-selected;
+          color: $color-base-white;
+        }
+
+        &:hover {
+          background-color: $color-table-hover;
+          color: $color-base-black;
+        }
+      }
     }
   }
 }
 
 .field__item + .field__item {
-  margin-top: 0.75rem;
+  margin-top: 1rem;
 }
