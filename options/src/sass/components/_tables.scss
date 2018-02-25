@@ -16,3 +16,11 @@ th {
     background-color: inherit;
   }
 }
+
+td {
+  padding: 0.125rem;
+
+  &.empty {
+    background-color: $color-base-white;
+  }
+}

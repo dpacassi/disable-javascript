@@ -4,10 +4,15 @@
 
 fieldset {
   border: solid 1px $color-base-black;
+  padding: 0.5rem;
 
   & + fieldset {
     margin-top: 1.5rem;
   }
+}
+
+legend {
+  padding: 0 0.125rem;
 }
 
 label {
@@ -20,6 +25,7 @@ input[type=radio] {
   & + label {
     border: solid 1px $color-main;
     color: $color-main;
+    cursor: pointer;
     display: inline-block;
     text-align: center;
     padding: 0.25rem 0.5rem;
@@ -28,7 +34,31 @@ input[type=radio] {
 
   &:checked + label {
     background-color: $color-main;
+    background-color: $color-main;
     border-color: $color-main;
     color: white;
+  }
+}
+
+.form-item-type--search {
+  background-color: $color-base-white;
+  margin: 0.5rem 0;
+  max-width: 30rem;
+  position: relative;
+  width: 100%;
+
+  img {
+    display: inline-block;
+    height: 1.5rem;
+    left: 0.25rem;
+    pointer-events: none;
+    position: absolute;
+    width: 1.5rem;
+  }
+
+  input {
+    display: inline-block;
+    padding-left: 2rem;
+    width: 100%;
   }
 }

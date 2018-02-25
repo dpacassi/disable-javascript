@@ -55,7 +55,7 @@ function domContentLoaded() {
 
     if (newHTML.length === 0) {
       newHTML += '<tr>';
-      newHTML += '<td class="empty" colspan="2">' + 'The list is empty.' + '</td>';
+      newHTML += '<td class="empty" colspan="2">' + 'You have not added any domains to your white-/blacklist yet.' + '</td>';
       newHTML += '</tr>';
 
       search.disabled = true;
