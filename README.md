@@ -10,7 +10,6 @@ host _(unless you block that host as well of course)_.
 ## Supported browsers
 - [Mozilla Firefox](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/) (Desktop & Firefox for Android)
 - [Google Chrome](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem) (Desktop)
-- Microsoft Edge (the request for access to the Windows Store is pending but you can [manually add](https://docs.microsoft.com/en-us/microsoft-edge/extensions/guides/adding-and-removing-extensions) the web extension to Edge)
 
 ## Usage
 Disabling and enabling JavaScript should be pretty self-explanatory.  
