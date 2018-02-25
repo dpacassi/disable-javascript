@@ -45,6 +45,12 @@
         "default": "Alt+1"
       },
       "description": "Toggle JavaScript"
+    },
+    "open-settings": {
+      "suggested_key": {
+        "default": "Alt+2"
+      },
+      "description": "Open Disable JavaScript settings"
     }
   }
 }

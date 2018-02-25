@@ -411,10 +411,16 @@
    * Listen to shortcut commands.
    */
   browser.commands.onCommand.addListener(function(command) {
-    if (command === 'toggle-state') {
-      browser.tabs.query({active:true}).then(function(tab) {
-        toggleJSState(tab[0]);
-      });
+    switch (command) {
+      case 'toggle-state':
+        browser.tabs.query({active:true}).then(function(tab) {
+          toggleJSState(tab[0]);
+        });
+        break;
+
+      case 'open-settings':
+        browser.runtime.openOptionsPage();
+        break;
     }
   });
 
