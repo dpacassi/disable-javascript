@@ -336,6 +336,10 @@
           title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
           tabId: tabId
         });
+
+        browser.menus.update('toggle-js', {
+          title: (jsEnabled ? 'Disable' : 'Enable') + ' JavaScript'
+        });
       });
     }
   });
