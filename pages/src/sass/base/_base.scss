@@ -1,0 +1,83 @@
+//-----------------------------------------------------------------------------
+// Base: Base Styling.
+//-----------------------------------------------------------------------------
+
+* {
+  box-sizing: border-box;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color: $color-main;
+  font-family: $font-family-default;
+  font-size: 100%;
+  font-weight: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: $color-background;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.75rem;
+}
+
+h1 { font-size: 2.185rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.565rem; }
+h4 { font-size: 1.250rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1.000rem; }
+
+* + h1,
+* + h2,
+* + h3,
+* + h4,
+* + h5,
+* + h6 {
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: $breakpoint-2) {
+  html { font-size: 0.9rem; }
+  h1 { font-size: 1.565rem; }
+  h2 { font-size: 1.250rem; }
+}
+
+article {
+  background-color: $color-secondary;
+  border: solid 1px $color-base-black;
+  padding: 0.75rem;
+}
+
+p,
+li {
+  line-height: 1.125;
+}
+
+ul,
+ol {
+  list-style-position: outside;
+  list-style-type: none;
+}
+
+* + article {
+  margin-top: 2rem;
+}
+
+* + p,
+* + li {
+  margin-top: 0.5rem;
+}

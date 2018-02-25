@@ -1,0 +1,9 @@
+//-----------------------------------------------------------------------------
+// Layout: Main.
+//-----------------------------------------------------------------------------
+
+main {
+  margin: 0 auto;
+  max-width: $content-wrap-max-width;
+  padding: $padding-content-wrap-vertical $padding-content-wrap-horizontal;
+}

@@ -1,0 +1,60 @@
+//-----------------------------------------------------------------------------
+// Components: Tables.
+//-----------------------------------------------------------------------------
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: $color-main;
+  color: $color-base-white;
+  padding: 0.375rem;
+  text-align: left;
+
+  &.transparent {
+    background-color: inherit;
+  }
+}
+
+td {
+  cursor: default;
+  padding: 0.375rem;
+
+  &.empty {
+    background-color: $color-base-white;
+  }
+}
+
+#fieldset__domain-list {
+  table {
+    border: solid 1px $color-secondary;
+
+    tbody {
+      border-top: none;
+
+      tr {
+        background-color: $color-base-white;
+
+        &:nth-child(2) {
+          background-color: $color-secondary;
+        }
+
+        &.active {
+          background-color: $color-table-selected;
+          color: $color-base-white;
+        }
+
+        &:hover {
+          background-color: $color-table-hover;
+          color: $color-base-black;
+        }
+      }
+    }
+  }
+}
+
+.field__item + .field__item {
+  margin-top: 1rem;
+}

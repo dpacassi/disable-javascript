@@ -1,0 +1,47 @@
+//-----------------------------------------------------------------------------
+// Helpers: Variables.
+//-----------------------------------------------------------------------------
+
+
+//----- Colors.
+
+$color-base-white: #ffffff;
+$color-base-black: #000000;
+
+$color-base-white-lilac: #f6f7fb;
+$color-base-shark: #2f3033;
+$color-base-athens-grey: #ebedf2;
+
+$color-base-tropical-blue: #bfe4f7;
+$color-base-azure-radiance: #0a84ff;
+
+$color-background: $color-base-athens-grey;
+$color-main: $color-base-shark;
+$color-secondary: $color-base-white-lilac;
+
+$color-table-hover: $color-base-tropical-blue;
+$color-table-selected: $color-base-azure-radiance;
+
+
+//----- Fonts.
+
+$font-path: './../../vendor/fonts';
+$font-family-default: 'Nunito', sans-serif;
+$font-size-default: 1rem;
+
+
+//----- Paddings.
+
+$padding-content-wrap-horizontal: 0.5rem;
+$padding-content-wrap-vertical: 1rem;
+
+//----- Content Wrap.
+
+$content-wrap-max-width: 75rem; // 1200px
+
+
+//----- Breakpoints.
+
+$breakpoint-1: 90.0rem; // 1440px
+$breakpoint-2: 64.0rem; // 1024px
+$breakpoint-3: 22.5rem; // 360px

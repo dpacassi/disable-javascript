@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Disable JavaScript Settings</title>
+
+    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./img/favicon.ico" type="image/x-icon" />
+    <link href="./vendor/css/html5reset-1.6.1.css" rel="stylesheet" />
+    <link href="./dist/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="page-options">
+    <main>
+      <section>
+        <h1>Disable JavaScript settings</h1>
+
+        <form>
+          <!-- Settings table -->
+          <fieldset id="fieldset__settings">
+            <legend>Settings</legend>
+
+            <table>
+              <tbody id="settings"></tbody>
+            </table>
+          </fieldset>
+
+          <!-- Domain list -->
+          <fieldset id="fieldset__domain-list">
+            <legend>Domain list</legend>
+
+            <div class="field__item field--search">
+              <div class="form-item form-item-type--search">
+                <img src="./vendor/icons/search.svg" alt="Search" title="Search" />
+                <input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" />
+              </div>
+            </div>
+
+            <div class="field__item field--table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Site</th>
+                    <th>Date added</th>
+                  </tr>
+                </thead>
+
+                <tbody id="domain-list--tbody" class="content-list"></tbody>
+              </table>
+            </div>
+
+            <div class="field__item field--actions">
+              <input type="button" disabled="disabled" id="remove" value="Remove" />
+              <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+            </div>
+          </fieldset>
+        </form>
+      </section>
+    </main>
+
+    <script src="./dist/js/options.min.js"></script>
+  </body>
+</html>

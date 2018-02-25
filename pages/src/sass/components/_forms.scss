@@ -1,0 +1,82 @@
+//-----------------------------------------------------------------------------
+// Components: Forms.
+//-----------------------------------------------------------------------------
+
+fieldset {
+  border: solid 1px $color-base-black;
+  display: block;
+  padding: 0.5rem;
+  width: 100%;
+
+  & + fieldset {
+    margin-top: 1.5rem;
+  }
+}
+
+legend {
+  padding: 0 0.125rem;
+}
+
+label {
+  color: $color-base-black;
+}
+
+input[type=radio] {
+  display: none;
+
+  & + label {
+    border: solid 1px $color-main;
+    color: $color-main;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    text-align: center;
+    width: 7.5rem;
+
+    @media screen and (max-width: $breakpoint-2) {
+      font-size: 0.8rem;
+      width: 5.5rem;
+    }
+  }
+
+  &:checked + label {
+    background-color: $color-main;
+    border-color: $color-main;
+    color: white;
+  }
+}
+
+input[type=button] {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+}
+
+.disable-behavior--tab #fieldset__domain-list {
+  display: none;
+}
+
+.form-item-type--search {
+  background-color: $color-base-white;
+  border: solid 1px $color-secondary;
+  margin: 0.5rem 0;
+  max-width: 30rem;
+  position: relative;
+  width: 100%;
+
+  img {
+    display: inline-block;
+    height: 1.5rem;
+    left: 0.25rem;
+    pointer-events: none;
+    position: absolute;
+    top: 0.25rem;
+    width: 1.5rem;
+  }
+
+  input {
+    border: none;
+    display: inline-block;
+    padding: 0.375rem 0.375rem 0.375rem 2rem;
+    width: 100%;
+  }
+}
