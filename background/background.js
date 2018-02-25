@@ -445,9 +445,15 @@ var browser = browser;
   browser.commands.onCommand.addListener(function(command) {
     switch (command) {
       case 'toggle-state':
-        browser.tabs.query({active:true}).then(function(tab) {
-          toggleJSState(tab[0]);
-        });
+        if (promises) {
+          browser.tabs.query({active:true}).then(function(tab) {
+            toggleJSState(tab[0]);
+          });
+        } else {
+          browser.tabs.query({active:true}, function(tab) {
+            toggleJSState(tab[0]);
+          });
+        }
         break;
 
       case 'open-settings':
