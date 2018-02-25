@@ -1,5 +1,5 @@
 # Disable JavaScript
-This web extension lets an user decide if JavaScript should be enabled or disabled for a given host.  
+This web extension lets an user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
 
 When accessing e.g. [google.com](https://www.google.com/) and disabling JavaScript, the web extension will block all JavaScript
 which otherwise would be loaded by google.com (including inline JS and external JS files from other hosts).  
@@ -28,10 +28,7 @@ If you need any assistance or find any bugs, feel free to create a new issue on 
 
 ## Future plans
 If the user base increases, it's possible to develop more features to this web extension, such as:
-- Publish the web extension in the Windows store for Microsoft Edge _(pending)_
-- Add a settings page with an overview of all blacklisted hosts and a `Clear all` button
-- Add the possibility of choosing between the **blacklist** and **whitelist** methods
-- Add the possibility of choosing the default JS state (JS by default on or off)
+- Port to Microsoft Edge
 - Port to Safari
 - .. your suggestions/ideas!
 
