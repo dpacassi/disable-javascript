@@ -340,9 +340,12 @@ var browser = browser;
           tabId: tabId
         });
 
-        browser.menus.update('toggle-js', {
-          title: (jsEnabled ? 'Disable' : 'Enable') + ' JavaScript'
-        });
+        // Only if supported.
+        if (typeof browser.menus !== 'undefined') {
+          browser.menus.update('toggle-js', {
+            title: (jsEnabled ? 'Disable' : 'Enable') + ' JavaScript'
+          });
+        }
       });
     }
   });
@@ -373,51 +376,54 @@ var browser = browser;
     }
   });
 
-  /**
-   * Create the browser action menu item to open the settings page.
-   */
-  browser.menus.create({
-    id: 'settings',
-    title: browser.i18n.getMessage('menuItemSettings'),
-    contexts: ['browser_action']
-  });
+  // Only if supported.
+  if (typeof browser.menus !== 'undefined') {
+    /**
+     * Create the browser action menu item to open the settings page.
+     */
+    browser.menus.create({
+      id: 'settings',
+      title: browser.i18n.getMessage('menuItemSettings'),
+      contexts: ['browser_action']
+    });
 
-  /**
-   * Create the browser action menu item to open the about page.
-   */
-  browser.menus.create({
-    id: 'about',
-    title: 'About Disable JavaScript',
-    contexts: ['browser_action']
-  });
+    /**
+     * Create the browser action menu item to open the about page.
+     */
+    browser.menus.create({
+      id: 'about',
+      title: 'About Disable JavaScript',
+      contexts: ['browser_action']
+    });
 
-  /**
-   * Create the page menu item to toggle the JavaScript state.
-   */
-  browser.menus.create({
-    id: 'toggle-js',
-    title: 'Disable JavaScript',
-    contexts: ['page']
-  });
+    /**
+     * Create the page menu item to toggle the JavaScript state.
+     */
+    browser.menus.create({
+      id: 'toggle-js',
+      title: 'Disable JavaScript',
+      contexts: ['page']
+    });
 
-  /**
-   * Open the settings page when the menu item was clicked.
-   */
-  browser.menus.onClicked.addListener(function(info, tab) {
-    switch (info.menuItemId) {
-      case 'settings':
-        browser.runtime.openOptionsPage();
-        break;
+    /**
+     * Open the settings page when the menu item was clicked.
+     */
+    browser.menus.onClicked.addListener(function(info, tab) {
+      switch (info.menuItemId) {
+        case 'settings':
+          browser.runtime.openOptionsPage();
+          break;
 
-      case 'about':
-        browser.tabs.create({url: './pages/about.html'});
-        break;
+        case 'about':
+          browser.tabs.create({url: './pages/about.html'});
+          break;
 
-      case 'toggle-js':
-        toggleJSState(tab);
-        break;
-    }
-  });
+        case 'toggle-js':
+          toggleJSState(tab);
+          break;
+      }
+    });
+  }
 
   /**
    * Listen to messages from options.js.
@@ -439,28 +445,31 @@ var browser = browser;
     }
   });
 
-  /**
-   * Listen to shortcut commands.
-   */
-  browser.commands.onCommand.addListener(function(command) {
-    switch (command) {
-      case 'toggle-state':
-        if (promises) {
-          browser.tabs.query({active:true}).then(function(tab) {
-            toggleJSState(tab[0]);
-          });
-        } else {
-          browser.tabs.query({active:true}, function(tab) {
-            toggleJSState(tab[0]);
-          });
-        }
-        break;
+  // Only if supported.
+  if (typeof browser.commands !== 'undefined') {
+    /**
+     * Listen to shortcut commands.
+     */
+    browser.commands.onCommand.addListener(function(command) {
+      switch (command) {
+        case 'toggle-state':
+          if (promises) {
+            browser.tabs.query({active:true}).then(function(tab) {
+              toggleJSState(tab[0]);
+            });
+          } else {
+            browser.tabs.query({active:true}, function(tab) {
+              toggleJSState(tab[0]);
+            });
+          }
+          break;
 
-      case 'open-settings':
-        browser.runtime.openOptionsPage();
-        break;
-    }
-  });
+        case 'open-settings':
+          browser.runtime.openOptionsPage();
+          break;
+      }
+    });
+  }
 
   /**
    * Ensure all needed settings are set.
