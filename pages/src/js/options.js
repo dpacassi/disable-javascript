@@ -144,7 +144,11 @@ function domContentLoaded() {
     for (var i = 0; i < rows.length; i++) {
       var host = rows[i].childNodes[0].innerHTML;
 
-      browser.storage.local.remove(host).then(preBuildList);
+      if (promises) {
+        browser.storage.local.remove(host).then(preBuildList);
+      } else {
+        browser.storage.local.remove(host, preBuildList);
+      }
     }
   }
 
@@ -162,11 +166,19 @@ function domContentLoaded() {
         settings[_settingsPrefix + name] = value;
       }
 
-      browser.storage.local.clear().then(function() {
-        browser.storage.local.set(settings).then(function() {
-          preBuildList();
+      if (promises) {
+        browser.storage.local.clear().then(function() {
+          browser.storage.local.set(settings).then(function() {
+            preBuildList();
+          });
         });
-      });
+      } else {
+        browser.storage.local.clear(function() {
+          browser.storage.local.set(settings, function() {
+            preBuildList();
+          });
+        });
+      }
     }
   }
 
