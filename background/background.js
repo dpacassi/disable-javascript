@@ -233,6 +233,62 @@
     });
   }
 
+  /**
+   * Toggles the JS state of a given tab.
+   */
+  function toggleJSState(tab) {
+    var host = new URL(tab.url).hostname;
+
+    getDefaultState().then(function(defaultState) {
+      getDisableBehavior().then(function(disableBehavior) {
+        if (disableBehavior === 'domain') {
+          isListedHost(host).then(function(listed) {
+            if (listed) {
+              if (promises) {
+                browser.storage.local.remove(host).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.remove(host, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
+            } else {
+              var item = {};
+
+              item[host] = (new Date()).toISOString();
+
+              if (promises) {
+                browser.storage.local.set(item).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.set(item, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
+            }
+          });
+        } else if (disableBehavior === 'tab') {
+          var jsEnabled = defaultState === 'on';
+
+          if (tabSettings.hasOwnProperty(tab.id)) {
+            jsEnabled = tabSettings[tab.id];
+          }
+
+          jsEnabled = !jsEnabled;
+          tabSettings[tab.id] = jsEnabled;
+
+          if (promises) {
+            browser.tabs.reload();
+          } else {
+            browser.tabs.update(tab.id, {url: tab.url});
+          }
+        }
+      });
+    });
+  }
+
   if (!promises) {
     /**
      * On browsers without promises, we need can't add a onHeadersReceived listener
@@ -289,58 +345,7 @@
    * menu item in Firefox for Android).
    * Also updates and reloads the specific tab.
    */
-  browser.browserAction.onClicked.addListener(function(tab) {
-    var host = new URL(tab.url).hostname;
-
-    getDefaultState().then(function(defaultState) {
-      getDisableBehavior().then(function(disableBehavior) {
-        if (disableBehavior === 'domain') {
-          isListedHost(host).then(function(listed) {
-            if (listed) {
-              if (promises) {
-                browser.storage.local.remove(host).then(function() {
-                  browser.tabs.reload();
-                });
-              } else {
-                browser.storage.local.remove(host, function() {
-                  browser.tabs.update(tab.id, {url: tab.url});
-                });
-              }
-            } else {
-              var item = {};
-
-              item[host] = (new Date()).toISOString();
-
-              if (promises) {
-                browser.storage.local.set(item).then(function() {
-                  browser.tabs.reload();
-                });
-              } else {
-                browser.storage.local.set(item, function() {
-                  browser.tabs.update(tab.id, {url: tab.url});
-                });
-              }
-            }
-          });
-        } else if (disableBehavior === 'tab') {
-          var jsEnabled = defaultState === 'on';
-
-          if (tabSettings.hasOwnProperty(tab.id)) {
-            jsEnabled = tabSettings[tab.id];
-          }
-
-          jsEnabled = !jsEnabled;
-          tabSettings[tab.id] = jsEnabled;
-
-          if (promises) {
-            browser.tabs.reload();
-          } else {
-            browser.tabs.update(tab.id, {url: tab.url});
-          }
-        }
-      });
-    });
-  });
+  browser.browserAction.onClicked.addListener(toggleJSState);
 
   /**
    * Reload active tabs after web extension installation.
@@ -399,6 +404,17 @@
       case 'disable_behavior':
         _disableBehavior = request.disable_behavior;
         break;
+    }
+  });
+
+  /**
+   * Listen to shortcut commands.
+   */
+  browser.commands.onCommand.addListener(function(command) {
+    if (command === 'toggle-state') {
+      browser.tabs.query({active:true}).then(function(tab) {
+        toggleJSState(tab[0]);
+      });
     }
   });
 

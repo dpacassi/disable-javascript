@@ -18,7 +18,7 @@
       "48": "icons/48/js-on.png",
       "128": "icons/128/js-on.png"
     },
-    "default_title": "Disable JavaScript"
+    "default_title": "Toggle JavaScript"
   },
   "background": {
     "scripts": [
@@ -38,5 +38,13 @@
     "webRequest",
     "webRequestBlocking",
     "menus"
-  ]
+  ],
+  "commands": {
+    "toggle-state": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+U"
+      },
+      "description": "Toggle JavaScript"
+    }
+  }
 }
