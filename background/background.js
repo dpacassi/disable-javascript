@@ -1,5 +1,7 @@
 'use strict';
 
+var browser = browser;
+
 (function(browser) {
   // Local variables.
   var browser = browser;
@@ -22,6 +24,7 @@
     browser = chrome;
     promises = false;
     listenUrls = ['http://*/*', 'https://*/*'];
+    browser.menus = browser.contextMenus;
     browserName = 'chrome';
   } else if (typeof browser.runtime.getBrowserInfo === 'undefined') {
     // If browser.runtime.getBrowserInfo is not defined, then we're on

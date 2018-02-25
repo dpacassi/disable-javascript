@@ -37,7 +37,8 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
-    "menus"
+    "menus",
+    "contextMenus"
   ],
   "commands": {
     "toggle-state": {
