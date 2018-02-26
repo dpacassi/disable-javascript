@@ -481,11 +481,15 @@ var browser = browser;
 
   // Init the _defaultState variable with the settings value.
   getDefaultState().then(function(defaultState) {
-    _defaultState = defaultState;
+    if (typeof defaultState !== 'undefined') {
+      _defaultState = defaultState;
+    }
   });
 
   // Init the _disableBehavior variable with the settings value.
   getDisableBehavior().then(function(disableBehavior) {
-    _disableBehavior = disableBehavior;
+    if (typeof disableBehavior !== 'undefined') {
+      _disableBehavior = disableBehavior;
+    }
   });
 })(browser);
