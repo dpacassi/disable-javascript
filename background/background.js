@@ -11,12 +11,16 @@ var browser = browser;
   var browserName = 'firefox';
   var defaultSettings = {
     'setting-default_state': 'on',
-    'setting-disable_behavior': 'domain'
+    'setting-disable_behavior': 'domain',
+    'setting-shortcuts': true,
+    'setting-context_menu': true
   };
   var tabSettings = {};
+  var _settingsPrefix = 'setting-';
   var _defaultState = 'on';
   var _disableBehavior = 'domain';
-  var _settingsPrefix = 'setting-';
+  var _shortcuts = true;
+  var _contextMenu = true;
 
   if (typeof browser === 'undefined') {
     // If browser is not defined, the plugin was loaded into Google Chrome.
@@ -155,12 +159,42 @@ var browser = browser;
   function ensureSettings(settingValues) {
     for (var setting in defaultSettings) {
       if (!settingValues.hasOwnProperty(setting)) {
+        // Setting didn't exist yet, fallback to default value.
         var settingObject = {};
         settingObject[setting] = defaultSettings[setting];
 
         browser.storage.local.set(settingObject);
+      } else {
+        // Setting exists, make sure we have the correct setting value in our
+        // application scope.
+        var settingValue = settingValues[setting];
+
+        if (typeof settingValue !== 'undefined') {
+          switch (setting) {
+            case 'setting-default_state':
+              _defaultState = settingValue;
+              break;
+
+            case 'setting-disable_behavior':
+              _disableBehavior = settingValue;
+              break;
+
+            case 'setting-shortcuts':
+              _shortcuts = settingValue;
+              break;
+
+            case 'setting-context_menu':
+              _contextMenu = settingValue;
+              break;
+          }
+        }
       }
     }
+
+    // After ensuring we have our correct setting values, initialize
+    // a few features.
+    toggleShortcuts();
+    toggleContextMenu();
   }
 
   /**
@@ -292,6 +326,61 @@ var browser = browser;
     });
   }
 
+  /**
+   * Listen to shortcut commands.
+   */
+  var commandListener = function(command) {
+    switch (command) {
+      case 'toggle-state':
+        if (promises) {
+          browser.tabs.query({active:true}).then(function(tab) {
+            toggleJSState(tab[0]);
+          });
+        } else {
+          browser.tabs.query({active:true}, function(tab) {
+            toggleJSState(tab[0]);
+          });
+        }
+        break;
+
+      case 'open-settings':
+        browser.runtime.openOptionsPage();
+        break;
+    }
+  };
+
+  /**
+   * Adds or removes a command listener for using shortcuts.
+   */
+  function toggleShortcuts() {
+    // Only if supported.
+    if (typeof browser.commands !== 'undefined') {
+      if (_shortcuts && !browser.commands.onCommand.hasListener(commandListener)) {
+        browser.commands.onCommand.addListener(commandListener);
+      } else {
+        browser.commands.onCommand.removeListener(commandListener);
+      }
+    }
+  }
+
+  function toggleContextMenu() {
+    // Only if supported.
+    if (typeof browser.menus !== 'undefined') {
+      if (_contextMenu) {
+        /**
+         * Create the page menu item to toggle the JavaScript state.
+         */
+        browser.menus.create({
+          id: 'toggle-js',
+          title: 'Toggle JavaScript',
+          contexts: ['page']
+        });
+      } else {
+        browser.menus.remove('toggle-js');
+      }
+    }
+  }
+
   if (!promises) {
     /**
      * On browsers without promises, we need can't add a onHeadersReceived listener
@@ -339,13 +428,6 @@ var browser = browser;
           title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
           tabId: tabId
         });
-
-        // Only if supported.
-        if (typeof browser.menus !== 'undefined') {
-          browser.menus.update('toggle-js', {
-            title: (jsEnabled ? 'Disable' : 'Enable') + ' JavaScript'
-          });
-        }
       });
     }
   });
@@ -397,15 +479,6 @@ var browser = browser;
     });
 
     /**
-     * Create the page menu item to toggle the JavaScript state.
-     */
-    browser.menus.create({
-      id: 'toggle-js',
-      title: 'Disable JavaScript',
-      contexts: ['page']
-    });
-
-    /**
      * Open the settings page when the menu item was clicked.
      */
     browser.menus.onClicked.addListener(function(info, tab) {
@@ -442,54 +515,26 @@ var browser = browser;
       case 'disable_behavior':
         _disableBehavior = request.value;
         break;
+
+      case 'shortcuts':
+        _shortcuts = request.value;
+        toggleShortcuts();
+        break;
+
+      case 'context_menu':
+        _contextMenu = request.value;
+        toggleContextMenu();
+        break;
     }
   });
-
-  // Only if supported.
-  if (typeof browser.commands !== 'undefined') {
-    /**
-     * Listen to shortcut commands.
-     */
-    browser.commands.onCommand.addListener(function(command) {
-      switch (command) {
-        case 'toggle-state':
-          if (promises) {
-            browser.tabs.query({active:true}).then(function(tab) {
-              toggleJSState(tab[0]);
-            });
-          } else {
-            browser.tabs.query({active:true}, function(tab) {
-              toggleJSState(tab[0]);
-            });
-          }
-          break;
-
-        case 'open-settings':
-          browser.runtime.openOptionsPage();
-          break;
-      }
-    });
-  }
 
   /**
    * Ensure all needed settings are set.
    */
   browser.runtime.onInstalled.addListener(function(details) {
-    preEnsureSettings();
     browser.tabs.create({url: './pages/about.html'});
   });
 
-  // Init the _defaultState variable with the settings value.
-  getDefaultState().then(function(defaultState) {
-    if (typeof defaultState !== 'undefined') {
-      _defaultState = defaultState;
-    }
-  });
-
-  // Init the _disableBehavior variable with the settings value.
-  getDisableBehavior().then(function(disableBehavior) {
-    if (typeof disableBehavior !== 'undefined') {
-      _disableBehavior = disableBehavior;
-    }
-  });
+  // Ensure we have all our needed settings.
+  preEnsureSettings();
 })(browser);

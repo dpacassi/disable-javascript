@@ -32,6 +32,28 @@ function domContentLoaded() {
       label: 'By tab',
       value: 'tab'
     }]
+  }, {
+    label: 'Enable shortcuts',
+    name: 'shortcuts',
+    type: 'radio',
+    options: [{
+      label: 'Yes',
+      value: 'true'
+    }, {
+      label: 'No',
+      value: 'false'
+    }]
+  }, {
+    label: 'Enable context menu item',
+    name: 'context_menu',
+    type: 'radio',
+    options: [{
+      label: 'Yes',
+      value: 'true'
+    }, {
+      label: 'No',
+      value: 'false'
+    }]
   }];
 
   var _settingsPrefix = 'setting-';
@@ -187,25 +209,30 @@ function domContentLoaded() {
    */
   function saveSetting() {
     var setting = {};
+    var settingValue = this.value;
 
-    setting[_settingsPrefix + this.name] = this.value;
+    // Cast 'true' & 'false' values from form input fields to real booleans.
+    switch (this.value) {
+      case 'true':
+        settingValue = true;
+        break;
+
+      case 'false':
+        settingValue = false;
+        break;
+    }
+
+    setting[_settingsPrefix + this.name] = settingValue;
     browser.storage.local.set(setting);
 
     // Notify app.js about the change.
-    if (this.name === 'default_state') {
-      browser.runtime.sendMessage({
-        type: 'default_state',
-        value: this.value
-      });
-    } else if (this.name === 'disable_behavior') {
-      browser.runtime.sendMessage({
-        type: 'disable_behavior',
-        value: this.value
-      });
+    browser.runtime.sendMessage({
+      type: this.name,
+      value: settingValue
+    });
 
-      // Re-build the domain list if this value changed.
-      preBuildList();
-    }
+    // Re-build the domain list.
+    preBuildList();
   }
 
   /**
@@ -227,6 +254,10 @@ function domContentLoaded() {
         var checked = '';
 
         if (settingValues[_settingsPrefix + setting.name] === option.value) {
+          checked = ' checked="checked"';
+        } else if (settingValues[_settingsPrefix + setting.name] === true && option.value === 'true') {
+          checked = ' checked="checked"';
+        } else if (settingValues[_settingsPrefix + setting.name] === false && option.value === 'false') {
           checked = ' checked="checked"';
         }
 
