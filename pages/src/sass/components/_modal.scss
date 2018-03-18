@@ -29,6 +29,11 @@
       cursor: pointer;
       height: auto;
       width: 100%;
+
+      &:hover {
+        animation-duration: 0.6s;
+        animation-name: spin-quarter;
+      }
     }
   }
 

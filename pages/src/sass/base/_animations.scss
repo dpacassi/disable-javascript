@@ -13,3 +13,9 @@
     top: 0;
   }
 }
+
+@keyframes spin-quarter {
+  100% {
+    transform: rotate(90deg);
+  }
+}

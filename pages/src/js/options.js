@@ -220,13 +220,18 @@ function domContentLoaded() {
   /**
    * Closes the add domain form modal.
    */
-  function closeAddDomainFormModal(event) {
+  function closeAddDomainFormModal() {
+    addDomainFormModal.style.display = 'none';
+  }
+
+  /**
+   * Closes the add domain form modal.
+   */
+  function closeAddDomainFormModalForWindow(event) {
     if (typeof event !== 'undefined') {
-      if (event.target === addDomainFormModal || event.target.localName === 'svg') {
-        addDomainFormModal.style.display = 'none';
+      if (event.target === addDomainFormModal) {
+        closeAddDomainFormModal();
       }
-    } else {
-      addDomainFormModal.style.display = 'none';
     }
   }
 
@@ -411,7 +416,7 @@ function domContentLoaded() {
   document.getElementById('search').addEventListener('keyup', executeSearch);
 
   // Close modal when clicking outside of it.
-  window.addEventListener('click', closeAddDomainFormModal);
+  window.addEventListener('click', closeAddDomainFormModalForWindow);
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);
