@@ -1,0 +1,62 @@
+{
+  "author": "David Pacassi Torrico",
+  "manifest_version": 2,
+  "name": "Disable JavaScript",
+  "version": "2.1.0",
+  "description": "Adds the ability to disable JavaScript on specific sites.",
+  "homepage_url": "https://github.com/dpacassi/disable-javascript",
+  "default_locale": "en",
+  "icons": {
+    "40": "icons/40/app.png",
+    "48": "icons/48/app.png",
+    "128": "icons/128/app.png"
+  },
+  "browser_action": {
+    "browser_style": false,
+    "default_icon": {
+      "40": "icons/40/js-on.png",
+      "48": "icons/48/js-on.png",
+      "128": "icons/128/js-on.png"
+    },
+    "default_title": "Toggle JavaScript"
+  },
+  "background": {
+    "scripts": [
+      "background/background.js"
+    ]
+  },
+  "options_ui": {
+    "browser_style": false,
+    "open_in_tab": true,
+    "page": "pages/options.html"
+  },
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "storage",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "menus",
+    "contextMenus"
+  ],
+  "commands": {
+    "toggle-state": {
+      "suggested_key": {
+        "default": "Alt+Shift+1"
+      },
+      "description": "Toggle JavaScript"
+    },
+    "open-settings": {
+      "suggested_key": {
+        "default": "Alt+Shift+2"
+      },
+      "description": "Open Disable JavaScript settings"
+    }
+  },
+  "applications": {
+    "gecko": {
+      "id": "disable-javascript@pacassi.ch"
+    }
+  }
+}
