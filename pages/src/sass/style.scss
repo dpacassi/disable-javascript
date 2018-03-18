@@ -12,6 +12,7 @@
 // Base.
 //-----------------------------------------------------------------------------
 
+@import 'base/animations';
 @import 'base/base';
 
 
@@ -27,4 +28,5 @@
 //-----------------------------------------------------------------------------
 
 @import 'components/forms';
+@import 'components/modal';
 @import 'components/tables';

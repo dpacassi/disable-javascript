@@ -32,9 +32,35 @@ function domContentLoaded() {
       label: 'By tab',
       value: 'tab'
     }]
+  }, {
+    label: 'Enable shortcuts',
+    name: 'shortcuts',
+    type: 'radio',
+    options: [{
+      label: 'Yes',
+      value: 'true'
+    }, {
+      label: 'No',
+      value: 'false'
+    }]
+  }, {
+    label: 'Enable context menu item',
+    name: 'context_menu',
+    type: 'radio',
+    options: [{
+      label: 'Yes',
+      value: 'true'
+    }, {
+      label: 'No',
+      value: 'false'
+    }]
   }];
 
   var _settingsPrefix = 'setting-';
+  var addDomainFormModal = document.getElementById('add-domain-form-modal');
+  var addDomainForm = document.getElementById('add-domain-form');
+  var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
+  var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
 
   /**
    * Builds the domain list.
@@ -183,29 +209,95 @@ function domContentLoaded() {
   }
 
   /**
+   * Opens the add domain form modal.
+   */
+  function openAddDomainFormModal() {
+    addDomainForm.reset();
+    addDomainFormModal.style.display = 'block';
+    addDomainFormInput.focus();
+  }
+
+  /**
+   * Closes the add domain form modal.
+   */
+  function closeAddDomainFormModal() {
+    addDomainFormModal.style.display = 'none';
+  }
+
+  /**
+   * Closes the add domain form modal.
+   */
+  function closeAddDomainFormModalForWindow(event) {
+    if (typeof event !== 'undefined') {
+      if (event.target === addDomainFormModal) {
+        closeAddDomainFormModal();
+      }
+    }
+  }
+
+  /**
+   * Validates and saves a new domain.
+   */
+  function submitAddDomainForm(event) {
+    event.preventDefault();
+    var host = addDomainFormInput.value;
+    var isValid = isValidHost(host);
+
+    if (!isValid) {
+      addDomainFormInput.setCustomValidity('Please enter a valid host');
+      return false;
+    }
+
+    // Add the new entry.
+    var item = {};
+    item[host] = (new Date()).toISOString();
+
+    if (promises) {
+      browser.storage.local.set(item).then(function() {
+        // Re-build the domain list.
+        preBuildList();
+        closeAddDomainFormModal();
+      });
+    } else {
+      browser.storage.local.set(item, function() {
+        // Re-build the domain list.
+        preBuildList();
+        closeAddDomainFormModal();
+      });
+    }
+
+    return false;
+  }
+
+  /**
    * Saves the a web extension setting.
    */
   function saveSetting() {
     var setting = {};
+    var settingValue = this.value;
 
-    setting[_settingsPrefix + this.name] = this.value;
+    // Cast 'true' & 'false' values from form input fields to real booleans.
+    switch (this.value) {
+      case 'true':
+        settingValue = true;
+        break;
+
+      case 'false':
+        settingValue = false;
+        break;
+    }
+
+    setting[_settingsPrefix + this.name] = settingValue;
     browser.storage.local.set(setting);
 
     // Notify app.js about the change.
-    if (this.name === 'default_state') {
-      browser.runtime.sendMessage({
-        type: 'default_state',
-        value: this.value
-      });
-    } else if (this.name === 'disable_behavior') {
-      browser.runtime.sendMessage({
-        type: 'disable_behavior',
-        value: this.value
-      });
+    browser.runtime.sendMessage({
+      type: this.name,
+      value: settingValue
+    });
 
-      // Re-build the domain list if this value changed.
-      preBuildList();
-    }
+    // Re-build the domain list.
+    preBuildList();
   }
 
   /**
@@ -227,6 +319,10 @@ function domContentLoaded() {
         var checked = '';
 
         if (settingValues[_settingsPrefix + setting.name] === option.value) {
+          checked = ' checked="checked"';
+        } else if (settingValues[_settingsPrefix + setting.name] === true && option.value === 'true') {
+          checked = ' checked="checked"';
+        } else if (settingValues[_settingsPrefix + setting.name] === false && option.value === 'false') {
           checked = ' checked="checked"';
         }
 
@@ -281,13 +377,22 @@ function domContentLoaded() {
     }
   }
 
+  function isValidHost(str) {
+    return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+  }
+
   //-------- Init.
 
   // Mark the remove buttons as disabled.
   var buttons = document.querySelectorAll('input[type=button]');
 
   for (var i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = true;
+    switch (buttons[i].id) {
+      case 'remove':
+      case 'remove-all':
+        buttons[i].disabled = true;
+        break;
+    }
   }
 
   // Build our settings.
@@ -296,13 +401,22 @@ function domContentLoaded() {
   // Build the domain list.
   preBuildList();
 
-  // Define remove actions.
+  // Define actions.
   document.getElementById('remove').addEventListener('click', remove);
   document.getElementById('remove-all').addEventListener('click', removeAll);
+  document.getElementById('add-domain').addEventListener('click', openAddDomainFormModal);
+  addDomainForm.addEventListener('submit', submitAddDomainForm);
+  addDomainFormInput.addEventListener('change', function () {
+    this.setCustomValidity('');
+  });
+  addDomainFormClose.addEventListener('click', closeAddDomainFormModal);
 
   // Init search.
   document.getElementById('search').value = '';
   document.getElementById('search').addEventListener('keyup', executeSearch);
+
+  // Close modal when clicking outside of it.
+  window.addEventListener('click', closeAddDomainFormModalForWindow);
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);

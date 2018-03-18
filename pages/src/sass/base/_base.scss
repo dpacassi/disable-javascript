@@ -68,10 +68,23 @@ li {
   line-height: 1.125;
 }
 
+p.notice {
+  background-color: $color-secondary;
+  border: solid 1px $color-base-black;
+  display: inline-block;
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
 ul,
 ol {
   list-style-position: outside;
   list-style-type: none;
+}
+
+* + section {
+  margin-top: 1.5rem;
 }
 
 * + article {

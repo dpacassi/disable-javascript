@@ -25,37 +25,65 @@
               <tbody id="settings"></tbody>
             </table>
           </fieldset>
-
-          <!-- Domain list -->
-          <fieldset id="fieldset__domain-list">
-            <legend>Domain list</legend>
-
-            <div class="field__item field--search">
-              <div class="form-item form-item-type--search">
-                <img src="./vendor/icons/search.svg" alt="Search" title="Search" />
-                <input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" />
-              </div>
-            </div>
-
-            <div class="field__item field--table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Site</th>
-                    <th>Date added</th>
-                  </tr>
-                </thead>
-
-                <tbody id="domain-list--tbody" class="content-list"></tbody>
-              </table>
-            </div>
-
-            <div class="field__item field--actions">
-              <input type="button" disabled="disabled" id="remove" value="Remove" />
-              <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
-            </div>
-          </fieldset>
         </form>
+      </section>
+
+      <section>
+        <!-- Domain list -->
+        <fieldset id="fieldset__domain-list">
+          <legend>Domain list</legend>
+
+          <div class="field__item field--search">
+            <div class="form-item form-item-type--search">
+              <img src="./vendor/icons/search.svg" alt="Search" title="Search" />
+              <input type="text" id="search" placeholder="Search by domain" disabled="disabled" value="" />
+            </div>
+          </div>
+
+          <div class="field__item field--table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Site</th>
+                  <th>Date added</th>
+                </tr>
+              </thead>
+
+              <tbody id="domain-list--tbody" class="content-list"></tbody>
+            </table>
+          </div>
+
+          <div class="field__item field--actions">
+            <input type="button" disabled="disabled" id="remove" value="Remove" />
+            <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+            <input type="button" id="add-domain" value="Add" />
+          </div>
+        </fieldset>
+
+        <div id="add-domain-form-modal" class="modal">
+          <div class="modal-content">
+            <h3>Add a new domain</h3>
+
+            <p class="notice">
+              Please note that the host name being entered has to match <strong>completely</strong> in order to work.<br />
+              Entering e.g. <strong>youtube.com</strong> won't work as the site runs as <strong>www.youtube.com</strong>,
+              which is technically another host.
+            </p>
+
+            <form id="add-domain-form">
+              <div class="field__item">
+                <label for="add-domain-form__domain-name">Domain name</label>
+                <input type="text" name="domain-name" id="add-domain-form__domain-name" value="" required="required" />
+              </div>
+
+              <div class="field__item field--actions">
+                <input type="submit" id="add-domain__submit" value="Add" />
+              </div>
+            </form>
+
+            <div id="add-domain-form-modal__close" class="modal-close"><svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" stroke="#000" stroke-width="5" stroke-linejoin="bevel" d="M12.972944,50.936147C12.972944,50.936147,51.027056,12.882035,51.027056,12.882035"></path><path fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="bevel" d="m 5.1969746,31.909063 53.8166424,0" style="opacity: 0;"></path><path fill="none" stroke="#000" stroke-width="5" stroke-linejoin="bevel" d="M12.972944,12.882035000000002C12.972944,12.882035000000002,51.027056,50.936147,51.027056,50.936147"></path></g><defs></defs></svg></div>
+          </div>
+        </div>
       </section>
     </main>
 

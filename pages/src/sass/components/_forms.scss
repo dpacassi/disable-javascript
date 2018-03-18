@@ -19,6 +19,13 @@ legend {
 
 label {
   color: $color-base-black;
+  padding-right: 1rem;
+}
+
+label,
+input,
+select {
+  vertical-align: middle;
 }
 
 input[type=radio] {
@@ -46,9 +53,16 @@ input[type=radio] {
   }
 }
 
-input[type=button] {
+input[type=button],
+input[type=submit] {
   display: inline-block;
   padding: 0.125rem 0.5rem;
+}
+
+input[type=text] {
+  display: inline-block;
+  max-width: 100%;
+  width: 20rem;
 }
 
 .disable-behavior--tab #fieldset__domain-list {

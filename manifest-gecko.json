@@ -53,5 +53,10 @@
       },
       "description": "Open Disable JavaScript settings"
     }
+  },
+  "applications": {
+    "gecko": {
+      "id": "disable-javascript@pacassi.ch"
+    }
   }
 }

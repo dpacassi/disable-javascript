@@ -37,7 +37,7 @@ td {
       tr {
         background-color: $color-base-white;
 
-        &:nth-child(2) {
+        &:nth-child(even) {
           background-color: $color-secondary;
         }
 

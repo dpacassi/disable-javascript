@@ -1,6 +1,6 @@
 {
   "name": "disable-javascript",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "author": "David Pacassi Torrico",
   "license": "MIT",

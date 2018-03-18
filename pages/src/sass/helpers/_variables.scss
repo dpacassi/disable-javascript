@@ -14,10 +14,14 @@ $color-base-athens-grey: #ebedf2;
 
 $color-base-tropical-blue: #bfe4f7;
 $color-base-azure-radiance: #0a84ff;
+$color-base-black-with-medium-opacity: rgba(0, 0, 0, 0.4);
+$color-base-black-with-low-opacity: rgba(0, 0, 0, 0.2);
 
 $color-background: $color-base-athens-grey;
 $color-main: $color-base-shark;
 $color-secondary: $color-base-white-lilac;
+$color-modal: $color-base-black-with-medium-opacity;
+$color-modal-border: $color-base-black-with-low-opacity;
 
 $color-table-hover: $color-base-tropical-blue;
 $color-table-selected: $color-base-azure-radiance;
