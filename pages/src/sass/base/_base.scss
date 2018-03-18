@@ -74,6 +74,10 @@ ol {
   list-style-type: none;
 }
 
+* + section {
+  margin-top: 1.5rem;
+}
+
 * + article {
   margin-top: 2rem;
 }

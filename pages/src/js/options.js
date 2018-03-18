@@ -57,6 +57,8 @@ function domContentLoaded() {
   }];
 
   var _settingsPrefix = 'setting-';
+  var addDomainFormModal = document.getElementById('add-domain-form-modal');
+  var addDomainForm = document.getElementById('add-domain-form');
 
   /**
    * Builds the domain list.
@@ -205,6 +207,21 @@ function domContentLoaded() {
   }
 
   /**
+   * Opens the add domain form modal.
+   */
+  function openAddDomainFormModal() {
+    addDomainForm.reset();
+    addDomainFormModal.style.display = 'block';
+  }
+
+  /**
+   * Validates and saves a new domain.
+   */
+  function submitAddDomainForm() {
+    return false;
+  }
+
+  /**
    * Saves the a web extension setting.
    */
   function saveSetting() {
@@ -318,7 +335,12 @@ function domContentLoaded() {
   var buttons = document.querySelectorAll('input[type=button]');
 
   for (var i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = true;
+    switch (buttons[i].id) {
+      case 'remove':
+      case 'remove-all':
+        buttons[i].disabled = true;
+        break;
+    }
   }
 
   // Build our settings.
@@ -327,13 +349,22 @@ function domContentLoaded() {
   // Build the domain list.
   preBuildList();
 
-  // Define remove actions.
+  // Define actions.
   document.getElementById('remove').addEventListener('click', remove);
   document.getElementById('remove-all').addEventListener('click', removeAll);
+  document.getElementById('add-domain').addEventListener('click', openAddDomainFormModal);
+  document.getElementById('add-domain__submit').addEventListener('click', submitAddDomainForm);
 
   // Init search.
   document.getElementById('search').value = '';
   document.getElementById('search').addEventListener('keyup', executeSearch);
+
+  // Close modal when clicking outside of it.
+  window.addEventListener('click', function(event) {
+    if (event.target === addDomainFormModal) {
+      addDomainFormModal.style.display = 'none';
+    }
+  });
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);

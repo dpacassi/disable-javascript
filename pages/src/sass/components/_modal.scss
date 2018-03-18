@@ -1,0 +1,30 @@
+//-----------------------------------------------------------------------------
+// Components: Modal.
+//-----------------------------------------------------------------------------
+
+.modal {
+  background-color: $color-modal;
+  bottom: 0;
+  display: none;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding-top: 5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+
+  .modal-content {
+    animation-duration: 0.4s;
+    animation-name: animatetop;
+    background-color: $color-background;
+    border: solid 1px $color-secondary;
+    box-shadow: 0 0.25rem 0.5rem 0 $color-modal-border, 0 0.375rem 2.25rem 0 $color-modal-border;
+    margin: 0 auto;
+    padding: 2rem;
+    position: relative;
+    width: 80%;
+  }
+}
