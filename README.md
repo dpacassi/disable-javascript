@@ -23,6 +23,18 @@ The code is completely **open source**, you can also use the unpacked version of
 No data of you will ever be logged and the web extension asks only for needed permissions.  
 Pull requests are **welcome**!
 
+## Installation from source
+To install the web extension directly from the source, follow this steps:
+- Clone or download the code
+- In the project's root folder: Run `npm install`
+- In the project's root folder: Run `gulp compile`
+- Add the web extension to your browser
+  - Mozilla Firefox: Visit `about:debugging` and click on `Load Temporary Add-on`. Load then the `manifest.json` file in the project's root folder
+  - Google Chrome: Visit `chrome://extensions/` and click on `Load unpacked`. Choose the project's root folder
+- If you simply want to test new branches/custom code without interfering with the installed version of the web extension, check out these browsers:
+  - [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/)
+  - [Chrome Canary](https://www.google.com/chrome/browser/canary.html)
+
 ## Contribution guidelines / support
 If you want to contribute in any way or simply report bugs, please have a look at the [contribution guidelines](CONTRIBUTING.md) first.  
 Thank you!
