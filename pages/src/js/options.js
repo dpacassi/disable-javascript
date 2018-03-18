@@ -60,6 +60,7 @@ function domContentLoaded() {
   var addDomainFormModal = document.getElementById('add-domain-form-modal');
   var addDomainForm = document.getElementById('add-domain-form');
   var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
+  var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
 
   /**
    * Builds the domain list.
@@ -221,7 +222,7 @@ function domContentLoaded() {
    */
   function closeAddDomainFormModal(event) {
     if (typeof event !== 'undefined') {
-      if (event.target === addDomainFormModal) {
+      if (event.target === addDomainFormModal || event.target.localName === 'svg') {
         addDomainFormModal.style.display = 'none';
       }
     } else {
@@ -403,6 +404,7 @@ function domContentLoaded() {
   addDomainFormInput.addEventListener('change', function () {
     this.setCustomValidity('');
   });
+  addDomainFormClose.addEventListener('click', closeAddDomainFormModal);
 
   // Init search.
   document.getElementById('search').value = '';
