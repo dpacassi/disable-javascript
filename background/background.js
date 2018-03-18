@@ -428,6 +428,13 @@ var browser = browser;
           title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
           tabId: tabId
         });
+
+        // Show <noscript> tags if JS is disabled.
+        if (!jsEnabled) {
+          browser.tabs.executeScript({
+            file: '/background/content.js'
+          });
+        }
       });
     }
   });
