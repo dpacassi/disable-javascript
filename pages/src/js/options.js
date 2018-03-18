@@ -59,6 +59,7 @@ function domContentLoaded() {
   var _settingsPrefix = 'setting-';
   var addDomainFormModal = document.getElementById('add-domain-form-modal');
   var addDomainForm = document.getElementById('add-domain-form');
+  var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
 
   /**
    * Builds the domain list.
@@ -212,12 +213,53 @@ function domContentLoaded() {
   function openAddDomainFormModal() {
     addDomainForm.reset();
     addDomainFormModal.style.display = 'block';
+    addDomainFormInput.focus();
+  }
+
+  /**
+   * Closes the add domain form modal.
+   */
+  function closeAddDomainFormModal(event) {
+    if (typeof event !== 'undefined') {
+      if (event.target === addDomainFormModal) {
+        addDomainFormModal.style.display = 'none';
+      }
+    } else {
+      addDomainFormModal.style.display = 'none';
+    }
   }
 
   /**
    * Validates and saves a new domain.
    */
-  function submitAddDomainForm() {
+  function submitAddDomainForm(event) {
+    event.preventDefault();
+    var host = addDomainFormInput.value;
+    var isValid = isValidHost(host);
+
+    if (!isValid) {
+      addDomainFormInput.setCustomValidity('Please enter a valid host');
+      return false;
+    }
+
+    // Add the new entry.
+    var item = {};
+    item[host] = (new Date()).toISOString();
+
+    if (promises) {
+      browser.storage.local.set(item).then(function() {
+        // Re-build the domain list.
+        preBuildList();
+        closeAddDomainFormModal();
+      });
+    } else {
+      browser.storage.local.set(item, function() {
+        // Re-build the domain list.
+        preBuildList();
+        closeAddDomainFormModal();
+      });
+    }
+
     return false;
   }
 
@@ -329,6 +371,10 @@ function domContentLoaded() {
     }
   }
 
+  function isValidHost(str) {
+    return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(str);
+  }
+
   //-------- Init.
 
   // Mark the remove buttons as disabled.
@@ -353,18 +399,17 @@ function domContentLoaded() {
   document.getElementById('remove').addEventListener('click', remove);
   document.getElementById('remove-all').addEventListener('click', removeAll);
   document.getElementById('add-domain').addEventListener('click', openAddDomainFormModal);
-  document.getElementById('add-domain__submit').addEventListener('click', submitAddDomainForm);
+  addDomainForm.addEventListener('submit', submitAddDomainForm);
+  addDomainFormInput.addEventListener('change', function () {
+    this.setCustomValidity('');
+  });
 
   // Init search.
   document.getElementById('search').value = '';
   document.getElementById('search').addEventListener('keyup', executeSearch);
 
   // Close modal when clicking outside of it.
-  window.addEventListener('click', function(event) {
-    if (event.target === addDomainFormModal) {
-      addDomainFormModal.style.display = 'none';
-    }
-  });
+  window.addEventListener('click', closeAddDomainFormModal);
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);
