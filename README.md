@@ -35,7 +35,7 @@ To install the web extension directly from the source, follow this steps:
   - [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/)
   - [Chrome Canary](https://www.google.com/chrome/browser/canary.html)
   
-### Installation from source (to mobile)
+### Pushing to mobile
 Make sure you have prepared your device with these [instructions](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Developing_WebExtensions_for_Firefox_for_Android).  
 After following the previous steps, continue like this:
 - In the project's root folder: Overwrite the existing `manifest.json` with the `manifest-gecko.json` file
@@ -43,9 +43,12 @@ After following the previous steps, continue like this:
 - In the project's root folder: Run `./push-to-mobile.sh`
 - In Firefox in your mobile device: Access `file:///storage/emulated/0` and select the `disable-javascript@pacassi.ch.xpi` file
 
-## Contribution guidelines / support
+## Contribution guidelines
 If you want to contribute in any way or simply report bugs, please have a look at the [contribution guidelines](CONTRIBUTING.md) first.  
 Thank you!
+
+## Support this project
+If you want to support this project, please think about making a small [contribution](https://www.paypal.me/dpacassi/5), thank you!
 
 ## Future plans
 Feature proposals are being added as [issues on GitHub](../../issues).  
