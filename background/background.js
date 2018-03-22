@@ -230,9 +230,6 @@ var browser = browser;
       prevVersion = settingValues['setting-version'];
     }
 
-    console.log('prevVersion: ' + prevVersion);
-    console.log('thisVersion: ' + thisVersion);
-
     var prevParts = prevVersion.split('.');
     var thisParts = thisVersion.split('.');
 
