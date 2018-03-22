@@ -202,6 +202,10 @@ function domContentLoaded() {
         settings[_settingsPrefix + name] = value;
       }
 
+      // Also set the web extension version, which is not a displayed setting.
+      var manifest = browser.runtime.getManifest();
+      settings['setting-version'] = manifest.version;
+
       if (promises) {
         browser.storage.local.clear().then(function() {
           browser.storage.local.set(settings).then(function() {
