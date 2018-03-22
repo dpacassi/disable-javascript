@@ -55,6 +55,18 @@ td {
   }
 }
 
+#add-domain-form {
+  table {
+    td:first-child {
+      width: 1px;
+    }
+
+    label {
+      white-space: nowrap;
+    }
+  }
+}
+
 .field__item + .field__item {
   margin-top: 1rem;
 }

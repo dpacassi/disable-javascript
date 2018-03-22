@@ -61,6 +61,7 @@ function domContentLoaded() {
   var addDomainForm = document.getElementById('add-domain-form');
   var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
   var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
+  var addDomainFormIncludeSubDomains = document.getElementById('add-domain-form__include-sub-domains');
 
   /**
    * Builds the domain list.
@@ -81,17 +82,26 @@ function domContentLoaded() {
 
     for (var i = entries.length - 1; i >= 0; i--) {
       var key = entries[i];
-      var dateAdded = new Date(result[key]);
+      var includeSubDomains = false;
+      var dateAdded;
+
+      if (typeof result[key] === 'string') {
+        dateAdded = new Date(result[key]);
+      }  else {
+        dateAdded = new Date(result[key]['date']);
+        includeSubDomains = result[key]['include-subdomains'];
+      }
 
       newHTML += '<tr>';
       newHTML += '<td>' + key + '</td>';
       newHTML += '<td>' + dateAdded.toLocaleDateString() + ' ' + dateAdded.toLocaleTimeString() + '</td>';
+      newHTML += '<td>' + (includeSubDomains ? 'Yes' : 'No') + '</td>';
       newHTML += '</tr>';
     }
 
     if (newHTML.length === 0) {
       newHTML += '<tr>';
-      newHTML += '<td class="empty" colspan="2">' + 'You have not added any domains to your white-/blacklist yet.' + '</td>';
+      newHTML += '<td class="empty" colspan="3">' + 'You have not added any domains to your white-/blacklist yet.' + '</td>';
       newHTML += '</tr>';
 
       search.disabled = true;
@@ -192,6 +202,10 @@ function domContentLoaded() {
         settings[_settingsPrefix + name] = value;
       }
 
+      // Also set the web extension version, which is not a displayed setting.
+      var manifest = browser.runtime.getManifest();
+      settings['setting-version'] = manifest.version;
+
       if (promises) {
         browser.storage.local.clear().then(function() {
           browser.storage.local.set(settings).then(function() {
@@ -250,7 +264,13 @@ function domContentLoaded() {
 
     // Add the new entry.
     var item = {};
-    item[host] = (new Date()).toISOString();
+    item[host] = {
+      date: (new Date()).toISOString()
+    };
+
+    if (addDomainFormIncludeSubDomains.checked) {
+      item[host]['include-subdomains'] = true;
+    }
 
     if (promises) {
       browser.storage.local.set(item).then(function() {

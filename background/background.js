@@ -105,16 +105,58 @@ var browser = browser;
 
   /**
    * Checks if a host is listed.
+   *
+   * Returns a promise containing one of these values:
+   * 0: The host is not listed at all.
+   * 1: The host is listed directly.
+   * 2: The host is listed via it's base domain.
    */
   function isListedHost(host) {
     return new Promise(function(resolve) {
+      var hosts = [host];
+      var hostParts = host.split('.');
+
+      if (hostParts.length > 1) {
+        // This is a sub-domain, let's also check for the base domain.
+        var baseHost = hostParts[hostParts.length-2] + '.' + hostParts[hostParts.length-1];
+        hosts.push(baseHost);
+      }
+
       if (promises) {
-        browser.storage.local.get(host).then(function(items) {
-          resolve(host in items);
+        browser.storage.local.get(hosts).then(function(items) {
+          var isListed = host in items;
+
+          if (isListed) {
+            // This domain is listed directly.
+            resolve(1);
+          }
+
+          if (baseHost in items) {
+            if (items[baseHost].hasOwnProperty('include-subdomains') && items[baseHost]['include-subdomains'] === true) {
+              // This domain is listed by the base domain.
+              resolve(2);
+            }
+          }
+
+          resolve(0);
         });
       } else {
-        browser.storage.local.get(host, function(items) {
-          resolve(host in items);
+        browser.storage.local.get(hosts, function(items) {
+          var isListed = host in items;
+
+          if (isListed) {
+            // This domain is listed directly.
+            resolve(1);
+          }
+
+          if (baseHost in items) {
+            if (items[baseHost].hasOwnProperty('include-subdomains') && items[baseHost]['include-subdomains'] === true) {
+              // This domain is listed by the base domain.
+              resolve(2);
+            }
+          }
+
+          resolve(0);
         });
       }
     });
@@ -215,6 +257,50 @@ var browser = browser;
   }
 
   /**
+   * Handle web extension updates.
+   */
+  function handleUpdate(settingValues) {
+    var manifest = browser.runtime.getManifest();
+    var prevVersion = '1.0.0';
+    var thisVersion = manifest.version;
+    var anyChange = false;
+    var majorChange = false;
+    var minorChange = false;
+    var patchChange = false;
+
+    if (settingValues.hasOwnProperty('setting-version')) {
+      prevVersion = settingValues['setting-version'];
+    }
+
+    var prevParts = prevVersion.split('.');
+    var thisParts = thisVersion.split('.');
+
+    if (prevParts[0] !== thisParts[0]) {
+      anyChange = true;
+      majorChange = true;
+    } else if (prevParts[1] !== thisParts[1]) {
+      anyChange = true;
+      minorChange = true;
+    } else if (prevParts[2] !== thisParts[2]) {
+      anyChange = true;
+      patchChange = true;
+    }
+
+    if (majorChange || minorChange) {
+      // We have a major or minor web extension update, show the about page.
+      browser.tabs.create({url: './pages/about.html'});
+    }
+
+    if (anyChange) {
+      // The web extension was updated, store our new version into our local storage.
+      var settingObject = {};
+      settingObject['setting-version'] = thisVersion;
+
+      browser.storage.local.set(settingObject);
+    }
+  }
+
+  /**
    * Adds a 'Content-Security-Policy' response header with "script-src 'none'"
    * depending on the host and tabId.
    */
@@ -280,7 +366,8 @@ var browser = browser;
       getDisableBehavior().then(function(disableBehavior) {
         if (disableBehavior === 'domain') {
           isListedHost(host).then(function(listed) {
-            if (listed) {
+            if (listed === 1) {
+              // The host is listed directly.
               if (promises) {
                 browser.storage.local.remove(host).then(function() {
                   browser.tabs.reload();
@@ -290,7 +377,22 @@ var browser = browser;
                   browser.tabs.update(tab.id, {url: tab.url});
                 });
               }
+            } else if (listed === 2) {
+              // The host is listed via it's base domain.
+              var hostParts = host.split('.');
+              var baseHost = hostParts[hostParts.length-2] + '.' + hostParts[hostParts.length-1];
+
+              if (promises) {
+                browser.storage.local.remove(baseHost).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.remove(baseHost, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
             } else {
+              // The host is not listed at all.
               var item = {};
 
               item[host] = (new Date()).toISOString();
@@ -446,25 +548,6 @@ var browser = browser;
    */
   browser.browserAction.onClicked.addListener(toggleJSState);
 
-  /**
-   * Reload active tabs after web extension installation.
-   */
-  browser.runtime.onInstalled.addListener(function() {
-    if (promises) {
-      browser.tabs.query({}).then(function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          browser.tabs.reload(tabs[i].id);
-        }
-      });
-    } else {
-      browser.tabs.query({}, function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          browser.tabs.update(tabs[i].id, {url: tabs[i].url});
-        }
-      });
-    }
-  });
-
   // Only if supported.
   if (typeof browser.menus !== 'undefined') {
     /**
@@ -536,12 +619,16 @@ var browser = browser;
   });
 
   /**
-   * Ensure all needed settings are set.
+   * Handle web extension and browser updates.
    */
   browser.runtime.onInstalled.addListener(function(details) {
-    browser.tabs.create({url: './pages/about.html'});
+    if (promises) {
+      browser.storage.local.get('setting-version').then(handleUpdate);
+    } else {
+      browser.storage.local.get('setting-version', handleUpdate);
+    }
   });
 
-  // Ensure we have all our needed settings.
+  // Ensure all needed settings are set.
   preEnsureSettings();
 })(browser);
