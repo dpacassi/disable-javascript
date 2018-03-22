@@ -215,6 +215,53 @@ var browser = browser;
   }
 
   /**
+   * Handle web extension updates.
+   */
+  function handleUpdate(settingValues) {
+    var manifest = browser.runtime.getManifest();
+    var prevVersion = '1.0.0';
+    var thisVersion = manifest.version;
+    var anyChange = false;
+    var majorChange = false;
+    var minorChange = false;
+    var patchChange = false;
+
+    if (settingValues.hasOwnProperty('setting-version')) {
+      prevVersion = settingValues['setting-version'];
+    }
+
+    console.log('prevVersion: ' + prevVersion);
+    console.log('thisVersion: ' + thisVersion);
+
+    var prevParts = prevVersion.split('.');
+    var thisParts = thisVersion.split('.');
+
+    if (prevParts[0] !== thisParts[0]) {
+      anyChange = true;
+      majorChange = true;
+    } else if (prevParts[1] !== thisParts[1]) {
+      anyChange = true;
+      minorChange = true;
+    } else if (prevParts[2] !== thisParts[2]) {
+      anyChange = true;
+      patchChange = true;
+    }
+
+    if (majorChange || minorChange) {
+      // We have a major or minor web extension update, show the about page.
+      browser.tabs.create({url: './pages/about.html'});
+    }
+
+    if (anyChange) {
+      // The web extension was updated, store our new version into our local storage.
+      var settingObject = {};
+      settingObject['setting-version'] = thisVersion;
+
+      browser.storage.local.set(settingObject);
+    }
+  }
+
+  /**
    * Adds a 'Content-Security-Policy' response header with "script-src 'none'"
    * depending on the host and tabId.
    */
@@ -446,25 +493,6 @@ var browser = browser;
    */
   browser.browserAction.onClicked.addListener(toggleJSState);
 
-  /**
-   * Reload active tabs after web extension installation.
-   */
-  browser.runtime.onInstalled.addListener(function() {
-    if (promises) {
-      browser.tabs.query({}).then(function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          browser.tabs.reload(tabs[i].id);
-        }
-      });
-    } else {
-      browser.tabs.query({}, function(tabs) {
-        for (var i = 0; i < tabs.length; i++) {
-          browser.tabs.update(tabs[i].id, {url: tabs[i].url});
-        }
-      });
-    }
-  });
-
   // Only if supported.
   if (typeof browser.menus !== 'undefined') {
     /**
@@ -536,12 +564,16 @@ var browser = browser;
   });
 
   /**
-   * Ensure all needed settings are set.
+   * Handle web extension and browser updates.
    */
   browser.runtime.onInstalled.addListener(function(details) {
-    browser.tabs.create({url: './pages/about.html'});
+    if (promises) {
+      browser.storage.local.get('setting-version').then(handleUpdate);
+    } else {
+      browser.storage.local.get('setting-version', handleUpdate);
+    }
   });
 
-  // Ensure we have all our needed settings.
+  // Ensure all needed settings are set.
   preEnsureSettings();
 })(browser);

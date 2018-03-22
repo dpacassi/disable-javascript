@@ -15,7 +15,7 @@
     <main>
       <section>
         <article>
-          <h1>About Disable JavaScript (2.1.0)</h1>
+          <h1>About Disable JavaScript (2.2.0)</h1>
           <p>First off, <strong>thank you</strong> for using this web extension!</p>
 
           <p>
@@ -26,20 +26,21 @@
           <p>
             If you happen to find this web extension not working on a particular machine/browser/website, please provide me details like browser, browser version, operating system and website url so I can
             check the web extension for any bugs.
+            Read more about this on <a href="https://github.com/dpacassi/disable-javascript/blob/master/CONTRIBUTING.md" target="_blank">GitHub</a>.
           </p>
 
           <p>Thank you for your support!</p>
         </article>
 
         <article>
-          <h2>What's new (2.1.0)</h2>
+          <h2>What's new (2.2.0)</h2>
           <p>
-            After getting some <a href="https://github.com/dpacassi/disable-javascript/issues/4" target="_blank">feedback</a>, I've had to change the shortcuts from <strong>Alt + 1</strong> and <strong>Alt + 2</strong> to <strong>Alt + Shift + 1</strong> and <strong>Alt + Shift + 2</strong>.<br />
-            Sorry for any inconvenience!
-          </p>
-          <p>
-            However, you can now define whether you want to use shortcuts and/or the context menu item (appears when right clicking on a page).<br />
-            Have a look at the new settings in the <a href="options.html">settings page</a>!
+            There was a bug on Firefox Quantum which didn't update web extension icons after installation.
+            As a workaround for this, this web extension used to force refresh all active tabs on installation/update.
+            After some feedback on GitHub and in form of reviews, I'm glad to tell you that this behavior was removed since the Firefox bug was fixed in the meantime.<br />
+
+            In addition to this, the about page now also only pops up when there was a major or minor web extension update.<br />
+            Browser updates or patch updates of the web extension won't open the about page any longer!
           </p>
         </article>
 
@@ -64,6 +65,10 @@
         <article>
           <h2>Changelog</h2>
           <ul>
+            <li>
+              <strong>2.2.0 (March 22nd, 2018)</strong><br />
+              Removed reloading all tabs after web extension/browser installation/update.
+            </li>
             <li>
               <strong>2.1.0 (March 18th, 2018)</strong><br />
               Added new settings like enabling or disabling shortcuts and context menu items.
