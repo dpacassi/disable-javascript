@@ -105,16 +105,58 @@ var browser = browser;
 
   /**
    * Checks if a host is listed.
+   *
+   * Returns a promise containing one of these values:
+   * 0: The host is not listed at all.
+   * 1: The host is listed directly.
+   * 2: The host is listed via it's base domain.
    */
   function isListedHost(host) {
     return new Promise(function(resolve) {
+      var hosts = [host];
+      var hostParts = host.split('.');
+
+      if (hostParts.length > 1) {
+        // This is a sub-domain, let's also check for the base domain.
+        var baseHost = hostParts[hostParts.length-2] + '.' + hostParts[hostParts.length-1];
+        hosts.push(baseHost);
+      }
+
       if (promises) {
-        browser.storage.local.get(host).then(function(items) {
-          resolve(host in items);
+        browser.storage.local.get(hosts).then(function(items) {
+          var isListed = host in items;
+
+          if (isListed) {
+            // This domain is listed directly.
+            resolve(1);
+          }
+
+          if (baseHost in items) {
+            if (items[baseHost].hasOwnProperty('include-subdomains') && items[baseHost]['include-subdomains'] === true) {
+              // This domain is listed by the base domain.
+              resolve(2);
+            }
+          }
+
+          resolve(0);
         });
       } else {
-        browser.storage.local.get(host, function(items) {
-          resolve(host in items);
+        browser.storage.local.get(hosts, function(items) {
+          var isListed = host in items;
+
+          if (isListed) {
+            // This domain is listed directly.
+            resolve(1);
+          }
+
+          if (baseHost in items) {
+            if (items[baseHost].hasOwnProperty('include-subdomains') && items[baseHost]['include-subdomains'] === true) {
+              // This domain is listed by the base domain.
+              resolve(2);
+            }
+          }
+
+          resolve(0);
         });
       }
     });
@@ -324,7 +366,8 @@ var browser = browser;
       getDisableBehavior().then(function(disableBehavior) {
         if (disableBehavior === 'domain') {
           isListedHost(host).then(function(listed) {
-            if (listed) {
+            if (listed === 1) {
+              // The host is listed directly.
               if (promises) {
                 browser.storage.local.remove(host).then(function() {
                   browser.tabs.reload();
@@ -334,7 +377,22 @@ var browser = browser;
                   browser.tabs.update(tab.id, {url: tab.url});
                 });
               }
+            } else if (listed === 2) {
+              // The host is listed via it's base domain.
+              var hostParts = host.split('.');
+              var baseHost = hostParts[hostParts.length-2] + '.' + hostParts[hostParts.length-1];
+
+              if (promises) {
+                browser.storage.local.remove(baseHost).then(function() {
+                  browser.tabs.reload();
+                });
+              } else {
+                browser.storage.local.remove(baseHost, function() {
+                  browser.tabs.update(tab.id, {url: tab.url});
+                });
+              }
             } else {
+              // The host is not listed at all.
               var item = {};
 
               item[host] = (new Date()).toISOString();

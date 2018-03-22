@@ -42,6 +42,11 @@
             In addition to this, the about page now also only pops up when there was a major or minor web extension update.<br />
             Browser updates or patch updates of the web extension won't open the about page any longer!
           </p>
+          <p>
+            You can now add base domains that automatically disable JS for any sub domains when adding a new domain via the
+            <a href="options.html">settings page</a>.<br />
+            Be careful when using this feature though, as <a href="https://github.com/dpacassi/disable-javascript/issues/18">complete inheritance</a> is not supported yet.
+          </p>
         </article>
 
         <article id="shortcuts">
@@ -67,7 +72,8 @@
           <ul>
             <li>
               <strong>2.2.0 (March 22nd, 2018)</strong><br />
-              Removed reloading all tabs after web extension/browser installation/update.
+              Removed reloading all tabs after web extension/browser installation/update.<br />
+              Added the ability to add base domains that automatically disable JS for any sub domains.
             </li>
             <li>
               <strong>2.1.0 (March 18th, 2018)</strong><br />

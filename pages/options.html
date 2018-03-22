@@ -46,6 +46,7 @@
                 <tr>
                   <th>Site</th>
                   <th>Date added</th>
+                  <th>Include sub-domains?</th>
                 </tr>
               </thead>
 
@@ -67,13 +68,29 @@
             <p class="notice">
               Please note that the host name being entered has to match <strong>completely</strong> in order to work.<br />
               Entering e.g. <strong>youtube.com</strong> won't work as the site runs as <strong>www.youtube.com</strong>,
-              which is technically another host.
+              which is technically another host.<br />
+              <br />
+              You can, however, insert a base domain such as <strong>youtube.com</strong> and include it's sub-domains
+              by checking the appropriate checkbox.<br />
+              But be careful when toggling the JS state via icon or contextual menu then as it will remove the parent entry
+              and not create a custom one for the <nobr>sub-domain</nobr>!<br />
+              <a href="https://github.com/dpacassi/disable-javascript/issues/18" target="_blank">Complete inheritance</a> is not supported yet!
             </p>
 
             <form id="add-domain-form">
               <div class="field__item">
-                <label for="add-domain-form__domain-name">Domain name</label>
-                <input type="text" name="domain-name" id="add-domain-form__domain-name" value="" required="required" />
+                <table>
+                  <tbody>
+                    <tr>
+                      <td><label for="add-domain-form__domain-name">Domain name</label></td>
+                      <td><input type="text" name="domain-name" id="add-domain-form__domain-name" value="" required="required" /></td>
+                    </tr>
+                  <tr>
+                    <td><label for="add-domain-form__include-sub-domains">Include sub-domains?</label></td>
+                    <td><input type="checkbox" name="include-sub-domains" id="add-domain-form__include-sub-domains" /></td>
+                  </tr>
+                  </tbody>
+                </table>
               </div>
 
               <div class="field__item field--actions">
