@@ -1,3 +1,10 @@
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/nimelepbpejjlbmoobocpfnjhihnpked.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
+[![Mozilla Add-on](https://img.shields.io/amo/v/dustman.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
+[![Mozilla Add-on](https://img.shields.io/amo/users/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
+[![Mozilla Add-on](https://img.shields.io/amo/stars/dustman.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
+
 # Disable JavaScript
 This web extension lets an user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
 
