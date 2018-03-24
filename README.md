@@ -1,9 +1,9 @@
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/nimelepbpejjlbmoobocpfnjhihnpked.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
-[![Mozilla Add-on](https://img.shields.io/amo/v/dustman.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
+[![Mozilla Add-on](https://img.shields.io/amo/v/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
 [![Mozilla Add-on](https://img.shields.io/amo/users/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
-[![Mozilla Add-on](https://img.shields.io/amo/stars/dustman.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
+[![Mozilla Add-on](https://img.shields.io/amo/stars/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Control+your+%23firefox+and+%23chrome+%23javascript+state+per+url+or+tab+individually.%0D%0AGet+https%3A%2F%2Fgithub.com%2Fdpacassi%2Fdisable-javascript+for+your+%23browser+now%21+%23disablejavascript)
 
 # Disable JavaScript
