@@ -4,7 +4,7 @@
 [![Mozilla Add-on](https://img.shields.io/amo/v/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
 [![Mozilla Add-on](https://img.shields.io/amo/users/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
 [![Mozilla Add-on](https://img.shields.io/amo/stars/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
-[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Control+your+%23firefox+and+%23chrome+%23javascript+state+per+url+or+tab+individually.%0D%0AGet+https%3A%2F%2Fgithub.com%2Fdpacassi%2Fdisable-javascript+for+your+%23browser+now%21+%23disablejavascript)
+[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Control+your+%23Firefox+and+%23Chrome+%23JavaScript+state+per+url+or+tab+individually.%0D%0AGet+https%3A%2F%2Fgithub.com%2Fdpacassi%2Fdisable-javascript+for+your+%23Browser+now%21+%23DisableJavaScript)
 
 # Disable JavaScript
 This web extension lets an user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
