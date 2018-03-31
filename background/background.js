@@ -370,11 +370,11 @@ var browser = browser;
               // The host is listed directly.
               if (promises) {
                 browser.storage.local.remove(host).then(function() {
-                  browser.tabs.reload();
+                  browser.tabs.reload({bypassCache: true});
                 });
               } else {
                 browser.storage.local.remove(host, function() {
-                  browser.tabs.update(tab.id, {url: tab.url});
+                  browser.tabs.reload({bypassCache: true});
                 });
               }
             } else if (listed === 2) {
@@ -384,11 +384,11 @@ var browser = browser;
 
               if (promises) {
                 browser.storage.local.remove(baseHost).then(function() {
-                  browser.tabs.reload();
+                  browser.tabs.reload({bypassCache: true});
                 });
               } else {
                 browser.storage.local.remove(baseHost, function() {
-                  browser.tabs.update(tab.id, {url: tab.url});
+                  browser.tabs.reload({bypassCache: true});
                 });
               }
             } else {
@@ -399,11 +399,11 @@ var browser = browser;
 
               if (promises) {
                 browser.storage.local.set(item).then(function() {
-                  browser.tabs.reload();
+                  browser.tabs.reload({bypassCache: true});
                 });
               } else {
                 browser.storage.local.set(item, function() {
-                  browser.tabs.update(tab.id, {url: tab.url});
+                  browser.tabs.reload({bypassCache: true});
                 });
               }
             }
@@ -418,11 +418,7 @@ var browser = browser;
           jsEnabled = !jsEnabled;
           tabSettings[tab.id] = jsEnabled;
 
-          if (promises) {
-            browser.tabs.reload();
-          } else {
-            browser.tabs.update(tab.id, {url: tab.url});
-          }
+          browser.tabs.reload({bypassCache: true});
         }
       });
     });
