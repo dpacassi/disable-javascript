@@ -20,6 +20,7 @@
 // Layout.
 //-----------------------------------------------------------------------------
 
+@import 'layout/header';
 @import 'layout/main';
 
 
@@ -28,5 +29,6 @@
 //-----------------------------------------------------------------------------
 
 @import 'components/forms';
+@import 'components/icons';
 @import 'components/modal';
 @import 'components/tables';

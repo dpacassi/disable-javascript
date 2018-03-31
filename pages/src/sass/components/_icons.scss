@@ -1,0 +1,23 @@
+//-----------------------------------------------------------------------------
+// Components: Icons.
+//-----------------------------------------------------------------------------
+
+.icons {
+  ul {
+    display: block;
+
+    li {
+      display: inline-block;
+      margin-top: 0;
+      vertical-align: middle;
+
+      a {
+        display: block;
+
+        img {
+          display: block;
+        }
+      }
+    }
+  }
+}
