@@ -1,0 +1,9 @@
+//-----------------------------------------------------------------------------
+// Layout: Header.
+//-----------------------------------------------------------------------------
+
+header {
+  margin: 0 auto;
+  max-width: $content-wrap-max-width;
+  padding: $padding-content-wrap-vertical $padding-content-wrap-horizontal 0;
+}

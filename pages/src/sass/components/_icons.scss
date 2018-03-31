@@ -1,0 +1,58 @@
+//-----------------------------------------------------------------------------
+// Components: Icons.
+//-----------------------------------------------------------------------------
+
+.icons {
+  ul {
+    display: block;
+
+    li {
+      display: inline-block;
+      margin-top: 0;
+      vertical-align: middle;
+
+      &.browser--link {
+        @media screen and (max-width: $breakpoint-25) {
+          display: none;
+        }
+      }
+
+      a {
+        display: inline-block;
+
+        img {
+          display: block;
+        }
+
+        svg {
+          display: block;
+          height: auto;
+          width: 1rem;
+
+          path {
+            fill: #0070ba;
+            transition: all .15s linear;
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #1546a0;
+            }
+          }
+        }
+      }
+
+      &:last-child {
+        float: right;
+      }
+    }
+
+    &::after {
+      clear: both;
+      content: '';
+      display: table;
+    }
+  }
+}
