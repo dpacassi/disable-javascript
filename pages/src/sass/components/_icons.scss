@@ -12,11 +12,34 @@
       vertical-align: middle;
 
       a {
-        display: block;
+        display: inline-block;
 
         img {
           display: block;
         }
+
+        svg {
+          display: block;
+          height: auto;
+          width: 1rem;
+
+          path {
+            fill: #0070ba;
+            transition: all .15s linear;
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: #1546a0;
+            }
+          }
+        }
+      }
+
+      &:last-child {
+        float: right;
       }
     }
   }
