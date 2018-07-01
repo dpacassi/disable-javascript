@@ -34,6 +34,7 @@ function domContentLoaded() {
     }]
   }, {
     label: 'Enable shortcuts',
+    details: '(<a href="about.html">More information</a>)',
     name: 'shortcuts',
     type: 'radio',
     options: [{
@@ -335,8 +336,13 @@ function domContentLoaded() {
       var setting = _settings[i];
 
       html += '<tr>';
-      html += '<td><label>' + setting.label + '</label></td>';
-      html += '<td>';
+      html += '<td><label>' + setting.label + '</label><span>';
+
+      if ('details' in setting) {
+        html += setting.details;
+      }
+
+      html += '</span></td><td>';
 
       for (var k = 0; k < _settings[i].options.length; k++) {
         var option = setting.options[k];
