@@ -567,7 +567,8 @@ var browser = browser;
 
         // Show <noscript> tags if JS is disabled.
         if (!jsEnabled) {
-          browser.tabs.executeScript({
+          browser.tabs.executeScript(
+            tabId, {
             file: '/background/content.js'
           });
         }
