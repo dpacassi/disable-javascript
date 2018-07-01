@@ -32,7 +32,7 @@
     <main>
       <section>
         <article>
-          <h1>About Disable JavaScript (2.2.1)</h1>
+          <h1 id="page-title">About Disable JavaScript</h1>
           <p>First off, <strong>thank you</strong> for using this web extension!</p>
 
           <p>
@@ -50,9 +50,11 @@
         </article>
 
         <article>
-          <h2>What's new (2.2.1)</h2>
-          <p>Fixed a caching bug related to &lt;noscript&gt;-tags when disabling/enabling JS.</p>
-          <h3>2.2.0</h3>
+          <h2 id="whats-new-title">What's new</h2>
+          <p>Fixed a bug which caused to falsely display &lt;noscript&gt; tags and fixed another bug that allowed to block empty url's.</p>
+          <h4>2.2.1</h4>
+          <p>Fixed a caching bug related to &lt;noscript&gt; tags when disabling/enabling JS.</p>
+          <h4>2.2.0</h4>
           <p>
             There was a bug on Firefox Quantum which didn't update web extension icons after installation.
             As a workaround for this, this web extension used to force refresh all active tabs on installation/update.
@@ -89,6 +91,10 @@
         <article>
           <h2>Changelog</h2>
           <ul>
+            <li>
+              <strong>2.2.2 (July 1st, 2018)</strong><br />
+              Fixed a bug which caused to falsely display &lt;noscript&gt; tags and fixed another bug that allowed to block empty url's.
+            </li>
             <li>
               <strong>2.2.1 (March 31st, 2018)</strong><br />
               Fixed a caching bug when disabling/enabling JS.
@@ -132,9 +138,11 @@
 
         <article>
           <h2>Support this project</h2>
-          <p>If you want to support this project, please think about making a small <a href="https://www.paypal.me/dpacassi/5" target="_blank">contribution</a>, thank you!</p>
+          <p>If you want to support this project, please think about making a small <a href="https://www.paypal.me/dpacassi/5" target="_blank">donation</a>, thank you!</p>
         </article>
       </section>
     </main>
+
+    <script src="./dist/js/about.min.js"></script>
   </body>
 </html>

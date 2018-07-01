@@ -34,6 +34,7 @@ function domContentLoaded() {
     }]
   }, {
     label: 'Enable shortcuts',
+    details: '(<a href="about.html">More information</a>)',
     name: 'shortcuts',
     type: 'radio',
     options: [{
@@ -62,6 +63,11 @@ function domContentLoaded() {
   var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
   var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
   var addDomainFormIncludeSubDomains = document.getElementById('add-domain-form__include-sub-domains');
+
+  // TODO: Create a custom JS file and function which takes a selector array
+  // as argument and attaches the version to all found selectors.
+  var manifest = browser.runtime.getManifest();
+  var versionHTML = ' <span class="version">(v' + manifest.version + ')</span>';
 
   /**
    * Builds the domain list.
@@ -330,8 +336,13 @@ function domContentLoaded() {
       var setting = _settings[i];
 
       html += '<tr>';
-      html += '<td><label>' + setting.label + '</label></td>';
-      html += '<td>';
+      html += '<td><label>' + setting.label + '</label><span>';
+
+      if ('details' in setting) {
+        html += setting.details;
+      }
+
+      html += '</span></td><td>';
 
       for (var k = 0; k < _settings[i].options.length; k++) {
         var option = setting.options[k];
@@ -437,6 +448,9 @@ function domContentLoaded() {
 
   // Close modal when clicking outside of it.
   window.addEventListener('click', closeAddDomainFormModalForWindow);
+
+  // Attach current version to the page title.
+  document.getElementById('page-title').innerHTML += versionHTML;
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);

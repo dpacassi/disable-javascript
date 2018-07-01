@@ -39,9 +39,22 @@ var browser = browser;
   }
 
   /**
+   * Determines wheter JS could be disabled for the given url.
+   */
+  function isApplicableUrl(url) {
+    var host = new URL(url).hostname;
+
+    if (host.trim().length === 0 || host === 'newtab') {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
    * Returns the correct app icon depending on the browser and JS status.
    */
-  function getIcon(jsEnabled, tabId) {
+  function getIcon(jsEnabled, tabId, url) {
     var icon = {};
 
     if (browserName === 'edge') {
@@ -57,6 +70,21 @@ var browser = browser;
 
     if (typeof tabId !== 'undefined') {
       icon.tabId = tabId;
+    }
+
+    if (typeof url !== 'undefined') {
+      if (!isApplicableUrl(url)) {
+        if (browserName === 'edge') {
+          icon.path = {
+            '40': jsEnabled ? 'icons/40/js-on-grey.png' : 'icons/40/js-off-grey.png'
+          };
+        } else {
+          icon.path = {
+            '48': jsEnabled ? 'icons/48/js-on-grey.png' : 'icons/48/js-off-grey.png',
+            '128': jsEnabled ? 'icons/128/js-on-grey.png' : 'icons/128/js-off-grey.png'
+          };
+        }
+      }
     }
 
     return icon;
@@ -298,6 +326,11 @@ var browser = browser;
 
       browser.storage.local.set(settingObject);
     }
+
+    if (anyChange && parseInt(prevParts[0]) <= 2) {
+      // Make sure we don't have black- or whitelisted any empty url's.
+      browser.storage.local.remove('');
+    }
   }
 
   /**
@@ -361,6 +394,11 @@ var browser = browser;
    */
   function toggleJSState(tab) {
     var host = new URL(tab.url).hostname;
+
+    if (!isApplicableUrl(tab.url)) {
+      // Don't do anything if this is not an applicable url.
+      return;
+    }
 
     getDefaultState().then(function(defaultState) {
       getDisableBehavior().then(function(disableBehavior) {
@@ -519,7 +557,7 @@ var browser = browser;
 
       isJSEnabled(host, tabId).then(function(jsEnabled) {
         if (typeof browser.browserAction.setIcon !== 'undefined') {
-          browser.browserAction.setIcon(getIcon(jsEnabled, tabId));
+          browser.browserAction.setIcon(getIcon(jsEnabled, tabId, url));
         }
 
         browser.browserAction.setTitle({
@@ -529,9 +567,27 @@ var browser = browser;
 
         // Show <noscript> tags if JS is disabled.
         if (!jsEnabled) {
-          browser.tabs.executeScript({
+          browser.tabs.executeScript(
+            tabId, {
             file: '/background/content.js'
           });
+        }
+      });
+    }
+  });
+
+  /**
+   * Update the icon when a new tab is being opened.
+   */
+  browser.tabs.onCreated.addListener(function(tab) {
+    var url = tab.url;
+
+    if (url) {
+      var host = new URL(url).hostname;
+
+      isJSEnabled(host, tab.id).then(function(jsEnabled) {
+        if (typeof browser.browserAction.setIcon !== 'undefined') {
+          browser.browserAction.setIcon(getIcon(jsEnabled, tab.id, url));
         }
       });
     }

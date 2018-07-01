@@ -19,7 +19,19 @@ legend {
 
 label {
   color: $color-base-black;
-  padding-right: 1rem;
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+label + span {
+  display: inline-block;
+  margin: 0 1rem 0 -0.5rem;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  @media screen and (max-width: $breakpoint-25) {
+    margin-left: 0;
+  }
 }
 
 label,
@@ -36,6 +48,7 @@ input[type=radio] {
     color: $color-main;
     cursor: pointer;
     display: inline-block;
+    margin: 0 0 0 0;
     padding: 0.25rem 0.5rem;
     text-align: center;
     width: 7.5rem;

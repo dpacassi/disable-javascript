@@ -50,6 +50,10 @@ h6 { font-size: 1.000rem; }
   margin-top: 2rem;
 }
 
+.version {
+  font-size: 1.000rem;
+}
+
 @media screen and (max-width: $breakpoint-2) {
   html { font-size: 0.9rem; }
   h1 { font-size: 1.565rem; margin-bottom: 0.75rem; }
