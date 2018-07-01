@@ -63,6 +63,11 @@ function domContentLoaded() {
   var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
   var addDomainFormIncludeSubDomains = document.getElementById('add-domain-form__include-sub-domains');
 
+  // TODO: Create a custom JS file and function which takes a selector array
+  // as argument and attaches the version to all found selectors.
+  var manifest = browser.runtime.getManifest();
+  var versionHTML = ' <span class="version">(v' + manifest.version + ')</span>';
+
   /**
    * Builds the domain list.
    */
@@ -437,6 +442,9 @@ function domContentLoaded() {
 
   // Close modal when clicking outside of it.
   window.addEventListener('click', closeAddDomainFormModalForWindow);
+
+  // Attach current version to the page title.
+  document.getElementById('page-title').innerHTML += versionHTML;
 }
 
 document.addEventListener('DOMContentLoaded', domContentLoaded);
