@@ -33,7 +33,9 @@ Pull requests are **welcome**!
 
 ## Installation from source
 To install the web extension directly from the source, follow this steps:
-- Clone or download the code
+- Install [npm](https://www.npmjs.com/)
+- Install [gulp.js](https://gulpjs.com/) (run `npm install --global gulp-cli`)
+- Clone or download **this** code
 - In the project's root folder: Run `npm install`
 - In the project's root folder: Run `gulp compile`
 - Add the web extension to your browser
