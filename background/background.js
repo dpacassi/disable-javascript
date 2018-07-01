@@ -326,6 +326,11 @@ var browser = browser;
 
       browser.storage.local.set(settingObject);
     }
+
+    if (anyChange && parseInt(prevParts[0]) <= 2) {
+      // Make sure we don't have black- or whitelisted any empty url's.
+      browser.storage.local.remove('');
+    }
   }
 
   /**
