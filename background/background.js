@@ -42,7 +42,9 @@ var browser = browser;
    * Determines wheter JS could be disabled for the given url.
    */
   function isApplicableUrl(url) {
-    if (url.trim().length === 0 || url.substring(0, 6) === 'about:' || url.substring(0, 7) === 'chrome:') {
+    var host = new URL(url).hostname;
+
+    if (host.trim().length === 0) {
       return false;
     }
 
@@ -387,6 +389,11 @@ var browser = browser;
    */
   function toggleJSState(tab) {
     var host = new URL(tab.url).hostname;
+
+    if (!isApplicableUrl(tab.url)) {
+      // Don't do anything if this is not an applicable url.
+      return;
+    }
 
     getDefaultState().then(function(defaultState) {
       getDisableBehavior().then(function(disableBehavior) {
