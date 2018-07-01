@@ -44,7 +44,7 @@ var browser = browser;
   function isApplicableUrl(url) {
     var host = new URL(url).hostname;
 
-    if (host.trim().length === 0) {
+    if (host.trim().length === 0 || host === 'newtab') {
       return false;
     }
 
