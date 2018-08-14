@@ -5,7 +5,7 @@
 ## How can I contribute?
 
 ### Reporting bugs/issues
-In order to help me diagnose and fix any bugs and issues, please provide following information in your report:
+In order to help me diagnose and fix any bugs and issues, please provide the following information in your report:
 - A clear list of steps to reproduce the problem
   - If the problem affects a particular site, please also include the URL!
 - Describe what you observe and consider broken behavior; this is what I'll be looking for after executing the reproduction steps
