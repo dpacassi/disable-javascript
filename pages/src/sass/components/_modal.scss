@@ -29,10 +29,10 @@
       cursor: pointer;
       height: auto;
       width: 100%;
+      @include prefix((transition: all 0.6s ease-in-out 0s));
 
       &:hover {
-        animation-duration: 0.6s;
-        animation-name: spin-quarter;
+        @include prefix((transform: rotate(180deg)));
       }
     }
   }
