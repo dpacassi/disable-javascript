@@ -185,6 +185,7 @@ function domContentLoaded() {
   function preBuildList() {
     removeButton.disabled = true;
     removeAllButton.disabled = true;
+    editButton.disabled = true;
 
     if (promises) {
       browser.storage.local.get(_settingsPrefix + 'disable_behavior').then(processPreBuildList);
