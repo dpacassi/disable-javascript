@@ -63,6 +63,13 @@ function domContentLoaded() {
   var addDomainFormInput = document.getElementById('add-domain-form__domain-name');
   var addDomainFormClose = document.getElementById('add-domain-form-modal__close');
   var addDomainFormIncludeSubDomains = document.getElementById('add-domain-form__include-sub-domains');
+  var removeButton = document.getElementById('remove');
+  var removeAllButton = document.getElementById('remove-all');
+  var addButton = document.getElementById('add-domain');
+  var editButton = document.getElementById('edit-domain');
+  var previousHostInput = document.getElementById('add-domain__previous_host');
+  var modalTitle = document.getElementById('add-domain__title');
+  var modalSubmitButton = document.getElementById('add-domain__submit');
 
   // TODO: Create a custom JS file and function which takes a selector array
   // as argument and attaches the version to all found selectors.
@@ -98,7 +105,7 @@ function domContentLoaded() {
         includeSubDomains = result[key]['include-subdomains'];
       }
 
-      newHTML += '<tr>';
+      newHTML += '<tr data-host="' + key + '" data-include-subdomains="' + (includeSubDomains ? 'true' : 'false') + '">';
       newHTML += '<td>' + key + '</td>';
       newHTML += '<td>' + dateAdded.toLocaleDateString() + ' ' + dateAdded.toLocaleTimeString() + '</td>';
       newHTML += '<td>' + (includeSubDomains ? 'Yes' : 'No') + '</td>';
@@ -125,6 +132,12 @@ function domContentLoaded() {
         if (this.classList.contains('active')) {
           // Remove active class.
           this.classList.remove('active');
+
+          // Update remove button.
+          removeButton.disabled = true;
+
+          // Update edit button.
+          editButton.disabled = true;
         } else {
           // Remove the active class from all other rows.
           var otherRows = tbody.querySelectorAll('tr.active');
@@ -137,14 +150,17 @@ function domContentLoaded() {
           this.classList.add('active');
 
           // Update remove button.
-          document.getElementById('remove').disabled = false;
+          removeButton.disabled = false;
+
+          // Update edit button.
+          editButton.disabled = false;
         }
       });
     }
 
     if (hasEntries) {
       // Update remove all button.
-      document.getElementById('remove-all').disabled = false;
+      removeAllButton.disabled = false;
     }
   }
 
@@ -167,8 +183,8 @@ function domContentLoaded() {
    * Helper for building the domain list.
    */
   function preBuildList() {
-    document.getElementById('remove').disabled = true;
-    document.getElementById('remove-all').disabled = true;
+    removeButton.disabled = true;
+    removeAllButton.disabled = true;
 
     if (promises) {
       browser.storage.local.get(_settingsPrefix + 'disable_behavior').then(processPreBuildList);
@@ -232,7 +248,25 @@ function domContentLoaded() {
    * Opens the add domain form modal.
    */
   function openAddDomainFormModal() {
+    var activeRow = document.getElementsByClassName('active');
     addDomainForm.reset();
+
+    if (this.id === 'add-domain') {
+      previousHostInput.value = '';
+      modalTitle.innerHTML = 'Add a new host';
+      modalSubmitButton.value = 'Add host';
+    } else {
+      activeRow = activeRow[0];
+      var hostname = activeRow.getAttribute('data-host');
+      var includeSubdomains = activeRow.getAttribute('data-include-subdomains');
+
+      modalTitle.innerHTML = 'Edit host <em>' + hostname + '</em>';
+      addDomainFormInput.value = hostname;
+      addDomainFormIncludeSubDomains.checked = includeSubdomains === 'true';
+      previousHostInput.value = hostname;
+      modalSubmitButton.value = 'Edit host';
+    }
+
     addDomainFormModal.style.display = 'block';
     addDomainFormInput.focus();
   }
@@ -266,6 +300,11 @@ function domContentLoaded() {
     if (!isValid) {
       addDomainFormInput.setCustomValidity('Please enter a valid host');
       return false;
+    }
+
+    // Remove the previous entry if we're on edit mode.
+    if (previousHostInput.value.length) {
+      browser.storage.local.remove(previousHostInput.value);
     }
 
     // Add the new entry.
@@ -421,6 +460,7 @@ function domContentLoaded() {
     switch (buttons[i].id) {
       case 'remove':
       case 'remove-all':
+      case 'edit':
         buttons[i].disabled = true;
         break;
     }
@@ -433,9 +473,10 @@ function domContentLoaded() {
   preBuildList();
 
   // Define actions.
-  document.getElementById('remove').addEventListener('click', remove);
-  document.getElementById('remove-all').addEventListener('click', removeAll);
-  document.getElementById('add-domain').addEventListener('click', openAddDomainFormModal);
+  removeButton.addEventListener('click', remove);
+  removeAllButton.addEventListener('click', removeAll);
+  addButton.addEventListener('click', openAddDomainFormModal);
+  editButton.addEventListener('click', openAddDomainFormModal);
   addDomainForm.addEventListener('submit', submitAddDomainForm);
   addDomainFormInput.addEventListener('change', function () {
     this.setCustomValidity('');

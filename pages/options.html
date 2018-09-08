@@ -55,15 +55,16 @@
           </div>
 
           <div class="field__item field--actions">
-            <input type="button" disabled="disabled" id="remove" value="Remove" />
-            <input type="button" disabled="disabled" id="remove-all" value="Remove all" />
+            <input type="button" id="remove" value="Remove" disabled="disabled" />
+            <input type="button" id="remove-all" value="Remove all" disabled="disabled" />
             <input type="button" id="add-domain" value="Add" />
+            <input type="button" id="edit-domain" value="Edit" disabled="disabled" />
           </div>
         </fieldset>
 
         <div id="add-domain-form-modal" class="modal">
           <div class="modal-content">
-            <h3>Add a new domain</h3>
+            <h3 id="add-domain__title"></h3>
 
             <p class="notice">
               Please note that the host name being entered has to match <strong>completely</strong> in order to work.<br />
@@ -94,7 +95,8 @@
               </div>
 
               <div class="field__item field--actions">
-                <input type="submit" id="add-domain__submit" value="Add" />
+                <input type="hidden" id="add-domain__previous_host" value="" />
+                <input type="submit" id="add-domain__submit" value="" />
               </div>
             </form>
 
