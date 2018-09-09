@@ -316,7 +316,7 @@ var browser = browser;
 
     if (majorChange || minorChange) {
       // We have a major or minor web extension update, show the about page.
-      browser.tabs.create({url: './pages/about.html'});
+      //browser.tabs.create({url: './pages/about.html'});
     }
 
     if (anyChange) {
