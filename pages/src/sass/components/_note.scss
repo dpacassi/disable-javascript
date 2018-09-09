@@ -1,0 +1,14 @@
+//-----------------------------------------------------------------------------
+// Components: Note.
+//-----------------------------------------------------------------------------
+
+.note {
+  background-color: $color-base-white;
+  border-left: solid 1px $color-base-black;
+  font-style: italic;
+  padding: 0.5rem 1.25rem;
+}
+
+* + .note {
+  margin-top: 1rem;
+}

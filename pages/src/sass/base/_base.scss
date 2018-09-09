@@ -87,6 +87,11 @@ ol {
   list-style-type: none;
 }
 
+* + ul,
+* + ol {
+  margin-top: 1rem;
+}
+
 * + section {
   margin-top: 1.5rem;
 }
