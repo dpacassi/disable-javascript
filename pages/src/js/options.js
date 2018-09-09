@@ -34,7 +34,7 @@ function domContentLoaded() {
     }]
   }, {
     label: 'Enable shortcuts',
-    details: '(<a href="about.html">More information</a>)',
+    details: '(<a href="about.html#shortcuts">More information</a>)',
     name: 'shortcuts',
     type: 'radio',
     options: [{
