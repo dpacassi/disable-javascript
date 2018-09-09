@@ -2,7 +2,7 @@
   "author": "David Pacassi Torrico",
   "manifest_version": 2,
   "name": "Disable JavaScript",
-  "version": "2.2.3",
+  "version": "2.3.0",
   "description": "Adds the ability to disable JavaScript on specific sites.",
   "homepage_url": "https://github.com/dpacassi/disable-javascript",
   "default_locale": "en",

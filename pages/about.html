@@ -51,25 +51,7 @@
 
         <article>
           <h2 id="whats-new-title">What's new</h2>
-          <p>Remove source SASS and JS files from the web extension package script as they are not needed in the final environment.</p>
-          <h4>2.2.2</h4>
-          <p>Fixed a bug which caused to falsely display &lt;noscript&gt; tags and fixed another bug that allowed to block empty url's.</p>
-          <h4>2.2.1</h4>
-          <p>Fixed a caching bug related to &lt;noscript&gt; tags when disabling/enabling JS.</p>
-          <h4>2.2.0</h4>
-          <p>
-            There was a bug on Firefox Quantum which didn't update web extension icons after installation.
-            As a workaround for this, this web extension used to force refresh all active tabs on installation/update.
-            After some feedback on GitHub and in form of reviews, I'm glad to tell you that this behavior was removed since the Firefox bug was fixed in the meantime.<br />
-
-            In addition to this, the about page now also only pops up when there was a major or minor web extension update.<br />
-            Browser updates or patch updates of the web extension won't open the about page any longer!
-          </p>
-          <p>
-            You can now add base domains that automatically disable JS for any sub domains when adding a new domain via the
-            <a href="options.html">settings page</a>.<br />
-            Be careful when using this feature though, as <a href="https://github.com/dpacassi/disable-javascript/issues/18" target="_blank">complete inheritance</a> is not supported yet.
-          </p>
+          <p>Added the ability to edit existing hosts. Fixed a bug when checking for valid hosts.</p>
         </article>
 
         <article id="shortcuts">
@@ -93,6 +75,10 @@
         <article>
           <h2>Changelog</h2>
           <ul>
+            <li>
+              <strong>2.3.0 (September 9th, 2018)</strong><br />
+              Added the ability to edit existing hosts. Fixed a bug when checking for valid hosts.
+            </li>
             <li>
               <strong>2.2.3 (July 1st, 2018)</strong><br />
               Remove source SASS and JS files from the web extension package script as they are not needed in the final environment.
