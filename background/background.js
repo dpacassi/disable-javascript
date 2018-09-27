@@ -557,6 +557,12 @@ var browser = browser;
       return;
     }
 
+    if (typeof changeInfo.status === 'undefined' || changeInfo.status !== 'complete') {
+      // onUpdated gets fired multiple times on tab change, only listen to the
+      // complete state.
+      return;
+    }
+
     var host = new URL(url).hostname;
 
     isJSEnabled(host, tabId).then(function(jsEnabled) {
