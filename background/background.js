@@ -552,28 +552,31 @@ var browser = browser;
   browser.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     var url = changeInfo.url || tab.url;
 
-    if (url) {
-      var host = new URL(url).hostname;
-
-      isJSEnabled(host, tabId).then(function(jsEnabled) {
-        if (typeof browser.browserAction.setIcon !== 'undefined') {
-          browser.browserAction.setIcon(getIcon(jsEnabled, tabId, url));
-        }
-
-        browser.browserAction.setTitle({
-          title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
-          tabId: tabId
-        });
-
-        // Show <noscript> tags if JS is disabled.
-        if (!jsEnabled) {
-          browser.tabs.executeScript(
-            tabId, {
-            file: '/background/content.js'
-          });
-        }
-      });
+    if (!isApplicableUrl(url)) {
+      // Don't do anything if this is not an applicable url.
+      return;
     }
+
+    var host = new URL(url).hostname;
+
+    isJSEnabled(host, tabId).then(function(jsEnabled) {
+      if (typeof browser.browserAction.setIcon !== 'undefined') {
+        browser.browserAction.setIcon(getIcon(jsEnabled, tabId, url));
+      }
+
+      browser.browserAction.setTitle({
+        title: (jsEnabled ? 'Disable' : 'Enable') + ' Javascript',
+        tabId: tabId
+      });
+
+      // Show <noscript> tags if JS is disabled.
+      if (!jsEnabled) {
+        browser.tabs.executeScript(
+          tabId, {
+          file: '/background/content.js'
+        });
+      }
+    });
   });
 
   /**
