@@ -4,6 +4,10 @@
   var tags = document.getElementsByTagName('noscript');
 
   for (var i = 0; i < tags.length; i++) {
-    tags[i].outerHTML = tags[i].outerHTML.replace(/noscript/g, 'div');
+    if (tags[i].firstChild) {
+      var newDiv = document.createElement('div');
+      newDiv.innerHTML = tags[i].innerHTML;
+      tags[i].parentNode.replaceChild(newDiv, tags[i]);
+    }
   }
 })();
