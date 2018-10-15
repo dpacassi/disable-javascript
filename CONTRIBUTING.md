@@ -27,3 +27,6 @@ please open an [issue on GitHub](../../issues).
 ### Pull requests
 You are free to fork this project and submit [pull requests](../../pulls)!  
 I will review your pull request and give feedback. If everything seems fine, your pull request will of course be merged.
+
+## Helpful resources
+- [Developing extensions for Firefox for Android](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Developing_WebExtensions_for_Firefox_for_Android)
