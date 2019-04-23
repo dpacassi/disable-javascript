@@ -1,21 +1,24 @@
 'use strict';
 
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var uglify = require('gulp-uglify');
-var pump = require('pump');
-var del = require('del');
-var rename = require('gulp-rename');
+// Gulp packages.
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const uglify = require('gulp-uglify');
+const plumber = require("gulp-plumber");
+const del = require('del');
+const rename = require('gulp-rename');
+const sassGlob = require('gulp-sass-glob');
 
 // Path settings.
-var paths = {
+let paths = {
   sass: './pages/src/sass',
   css: './pages/dist/css',
   js_src: './pages/src/js',
   js_dist: './pages/dist/js'
 };
 
-var options = {
+// SASS settings.
+let options = {
   sass: {
     outputStyle: 'compressed'
   },
@@ -26,38 +29,70 @@ var options = {
   }
 };
 
-gulp.task('clean-css', function() {
-  del.sync([paths.css + '/*']);
-});
+//--------------- Cleaning functions.
 
-gulp.task('clean-js', function() {
-  del.sync([paths.js_dist + '/*']);
-});
+function cleanCSS() {
+  return del([
+    paths.css + '/*'
+  ]);
+}
 
-gulp.task('clean', ['clean-css', 'clean-js']);
+function cleanJS() {
+  return del([
+    paths.js_dist + '/*'
+  ]);
+}
 
-gulp.task('compile-css', ['clean-css'], function() {
-  return gulp.src(paths.sass + '/**/*.scss')
-    .pipe(sass(options.sass).on('error', sass.logError))
+function clean() {
+  cleanCSS();
+  cleanJS();
+}
+
+//--------------- Compiling functions.
+
+function compileCSS() {
+  return gulp
+    .src(paths.sass + '/**/*.scss')
+    .pipe(sassGlob())
+    .pipe(plumber())
+    .pipe(sass(options.sass))
     .pipe(gulp.dest(paths.css));
-});
+}
 
-gulp.task('compile-js', ['clean-js'], function(cb) {
-  pump([
-      gulp.src(paths.js_src + '/*.js'),
-      rename({suffix: '.min'}),
-      uglify(options.uglify),
-      gulp.dest(paths.js_dist)
-    ],
-    cb
-  );
-});
+function compileJS() {
+  return gulp
+    .src(paths.js_src + '/*.js')
+    .pipe(plumber())
+    .pipe(uglify(options.uglify))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest(paths.js_dist));
+}
 
-gulp.task('compile', ['compile-css', 'compile-js']);
+function compile() {
+  compileCSS();
+  compileJS();
+}
 
-gulp.task('watch', function() {
-  gulp.watch(paths.sass + '/**/*.scss', ['compile-css']);
-  gulp.watch(paths.js_src + '/**/*.js', ['compile-js']);
-});
+//--------------- Watcher.
 
-gulp.task('default', ['compile', 'watch']);
+function watch() {
+  gulp.watch(paths.sass + '/**/*.scss', compileCSS);
+  gulp.watch(paths.js_src + '/**/*.js', compileJS);
+}
+
+//--------------- Default function.
+
+function defaultTask() {
+  clean();
+  compile();
+  watch();
+}
+
+exports.cleanCSS = cleanCSS;
+exports.cleanJS = cleanJS;
+exports.clean = clean;
+exports.compileCSS = compileCSS;
+exports.compileJS = compileJS;
+exports.compile = compile;
+exports.watch = watch;
+exports.default = defaultTask;
