@@ -14,12 +14,11 @@
   },
   "devDependencies": {
     "del": "^4.1.0",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.1",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.2",
     "gulp-sass-glob": "^1.0.9",
-    "gulp-uglify": "^3.0.2",
-    "tar": "^4.4.8"
+    "gulp-uglify": "^3.0.2"
   }
 }
