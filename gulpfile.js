@@ -68,10 +68,11 @@ function compileJS() {
     .pipe(gulp.dest(paths.js_dist));
 }
 
-function compile() {
+gulp.task('compile', done => {
   compileCSS();
   compileJS();
-}
+  done();
+});
 
 //--------------- Watcher.
 
@@ -93,6 +94,5 @@ exports.cleanJS = cleanJS;
 exports.clean = clean;
 exports.compileCSS = compileCSS;
 exports.compileJS = compileJS;
-exports.compile = compile;
 exports.watch = watch;
 exports.default = defaultTask;
