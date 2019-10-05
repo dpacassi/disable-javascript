@@ -7,7 +7,7 @@
 [![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Control+your+%23Firefox+and+%23Chrome+%23JavaScript+state+per+url+or+tab+individually.%0D%0AGet+https%3A%2F%2Fgithub.com%2Fdpacassi%2Fdisable-javascript+for+your+%23Browser+now%21+%23DisableJavaScript)
 
 # Disable JavaScript
-This web extension lets an user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
+This web extension lets a user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
 
 When accessing e.g. [google.com](https://www.google.com/) and disabling JavaScript, the web extension will block all JavaScript
 which otherwise would be loaded by google.com (including inline JS and external JS files from other hosts).  
@@ -33,7 +33,7 @@ Pull requests are **welcome**!
 
 ## Installation from source
 To install the web extension directly from the source, follow this steps:
-- Install [npm](https://www.npmjs.com/)
+- Install [Node.js and npm](https://www.npmjs.com/get-npm)
 - Install [gulp.js](https://gulpjs.com/) (run `npm install --global gulp-cli`)
 - Clone or download **this** code
 - In the project's root folder: Run `npm install`
