@@ -128,33 +128,32 @@ function domContentLoaded() {
     var rows = tbody.querySelectorAll('tr');
 
     for (var i = 0; i < rows.length; i++) {
-      rows[i].addEventListener('click', function() {
-        if (this.classList.contains('active')) {
-          // Remove active class.
-          this.classList.remove('active');
-
-          // Update remove button.
-          removeButton.disabled = true;
-
-          // Update edit button.
-          editButton.disabled = true;
-        } else {
-          // Remove the active class from all other rows.
+      rows[i].addEventListener('click', function(event) {
+        // if a modifier button is not present
+        // unselect everything before toggling this row
+        if (!event.metaKey && !event.ctrlKey) {
           var otherRows = tbody.querySelectorAll('tr.active');
-
           for (var k = 0; k < otherRows.length; k++) {
             otherRows[k].classList.remove('active');
           }
-
-          // Add active class.
-          this.classList.add('active');
-
-          // Update remove button.
-          removeButton.disabled = false;
-
-          // Update edit button.
-          editButton.disabled = false;
         }
+
+        if (this.classList.contains('active')) {
+          this.classList.remove('active');
+        } else {
+          this.classList.add('active');
+        }
+
+        // buttons should only be active if there are active selections
+        var disableButtons = true;
+        for (var i = 0; i < rows.length; i++) {
+          if (rows[i].classList.contains('active')) {
+            disableButtons = false;
+            break;
+          }
+        }
+        removeButton.disabled = disableButtons;
+        editButton.disabled = disableButtons;
       });
     }
 
