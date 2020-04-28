@@ -34,10 +34,10 @@ Pull requests are **welcome**!
 ## Installation from source
 To install the web extension directly from the source, follow this steps:
 - Install [Node.js and npm](https://www.npmjs.com/get-npm)
-- Install [gulp.js](https://gulpjs.com/) (run `npm install --global gulp-cli`)
 - Clone or download **this** code
 - In the project's root folder: Run `npm install`
-- In the project's root folder: Run `gulp compile`
+- In the project's root folder: Run `npx gulp compile`
+  - If you don't have access to `npx`, install [gulp.js](https://gulpjs.com/) globally (run `npm install --global gulp-cli`) and run `gulp compile`
 - Add the web extension to your browser
   - Mozilla Firefox: Visit `about:debugging` and click on `Load Temporary Add-on`. Load then the `manifest.json` file in the project's root folder
   - Google Chrome: Visit `chrome://extensions/` and click on `Load unpacked`. Choose the project's root folder
