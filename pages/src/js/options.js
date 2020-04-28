@@ -96,25 +96,28 @@ function domContentLoaded() {
     for (var i = entries.length - 1; i >= 0; i--) {
       var key = entries[i];
       var includeSubDomains = false;
+      var exceptionType;
       var dateAdded;
 
       if (typeof result[key] === 'string') {
         dateAdded = new Date(result[key]);
-      }  else {
+      } else {
         dateAdded = new Date(result[key]['date']);
         includeSubDomains = result[key]['include-subdomains'];
+        exceptionType = result[key]['exception-type'];
       }
 
       newHTML += '<tr data-host="' + key + '" data-include-subdomains="' + (includeSubDomains ? 'true' : 'false') + '">';
       newHTML += '<td>' + key + '</td>';
       newHTML += '<td>' + dateAdded.toLocaleDateString() + ' ' + dateAdded.toLocaleTimeString() + '</td>';
       newHTML += '<td>' + (includeSubDomains ? 'Yes' : 'No') + '</td>';
+      newHTML += '<td>' + (exceptionType) + '</td>';
       newHTML += '</tr>';
     }
 
     if (newHTML.length === 0) {
       newHTML += '<tr>';
-      newHTML += '<td class="empty" colspan="3">' + 'You have not added any domains to your white-/blacklist yet.' + '</td>';
+      newHTML += '<td class="empty" colspan="4">' + 'You have not added any domains to your white-/blacklist yet.' + '</td>';
       newHTML += '</tr>';
 
       search.disabled = true;
@@ -318,13 +321,25 @@ function domContentLoaded() {
       item[host]['include-subdomains'] = true;
     }
 
+    // Set exception type based on default state.
+    var defaultStateKey = _settingsPrefix + 'default_state'
+    function setExceptionType(settings) {
+      if (settings[defaultStateKey] == 'off') {
+        item[host]['exception-type'] = 'allow'
+      } else {
+        item[host]['exception-type'] = 'block'
+      }
+    }
+
     if (promises) {
+      browser.storage.local.get(defaultStateKey).then(setExceptionType);
       browser.storage.local.set(item).then(function() {
         // Re-build the domain list.
         preBuildList();
         closeAddDomainFormModal();
       });
     } else {
+      browser.storage.local.get(defaultStateKey, setExceptionType)
       browser.storage.local.set(item, function() {
         // Re-build the domain list.
         preBuildList();
