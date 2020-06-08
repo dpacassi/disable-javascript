@@ -328,7 +328,7 @@ var browser = browser;
     }
 
     if (anyChange && parseInt(prevParts[0]) <= 2) {
-      // Make sure we don't have black- or whitelisted any empty url's.
+      // Make sure we don't have any empty urls in the block-/allow-list.
       browser.storage.local.remove('');
     }
   }
