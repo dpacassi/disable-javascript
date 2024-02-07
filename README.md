@@ -1,10 +1,15 @@
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/users/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
-[![Chrome Web Store](https://img.shields.io/chrome-web-store/stars/jfpdlihdedhlmhlbgooailmfhahieoem.svg)](https://chrome.google.com/webstore/detail/disable-javascript/jfpdlihdedhlmhlbgooailmfhahieoem)
-[![Mozilla Add-on](https://img.shields.io/amo/v/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
-[![Mozilla Add-on](https://img.shields.io/amo/users/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
-[![Mozilla Add-on](https://img.shields.io/amo/stars/disable-javascript.svg)](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/)
-[![Twitter URL](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Control+your+%23Firefox+and+%23Chrome+%23JavaScript+state+per+url+or+tab+individually.%0D%0AGet+https%3A%2F%2Fgithub.com%2Fdpacassi%2Fdisable-javascript+for+your+%23Browser+now%21+%23DisableJavaScript)
+# Disable JavaScript has been discontinued!
+As you might have noticed (no updates for a long time), unfortunately I didn't have sufficient time to further
+develop this web extension.
+While the development of this web extension was exciting, there were very little donations and also some questionable
+reviews about the web extension.
+
+As Manifest V2 is getting deprecated soon, I decided to end this journey for now and handed over the ownership
+of the extension on Chrome and Firefox to another party.
+While I can't say if the code will continue to stay public, I want to point out that I'm not the maintainer anymore
+and that versions after **2.3.1** won't reflect the source code of this repository.
+
+Thanks everyone who supported this project by writing genuine reviews, donating or simply creating pull requests.
 
 # Disable JavaScript
 This web extension lets a user decide if JavaScript should be enabled or disabled for a given host or a given tab.  
@@ -25,11 +30,6 @@ The icons and labels update for a tab accordingly.
 
 **NOTE:** On Firefox for Android, no icon will be shown but toggling is possible via a menu item.  
 See the [Add-on page](https://addons.mozilla.org/en-US/firefox/addon/disable-javascript/) for screenshots.
-
-## Why to use this web extension
-The code is completely **open source**, you can also use the unpacked version of this web extension if you prefer.  
-No data of you will ever be logged and the web extension asks only for needed permissions.  
-Pull requests are **welcome**!
 
 ## Installation from source
 To install the web extension directly from the source, follow this steps:
@@ -56,9 +56,6 @@ After following the previous steps, continue like this:
 ## Contribution guidelines
 If you want to contribute in any way or simply report bugs, please have a look at the [contribution guidelines](CONTRIBUTING.md) first.  
 Thank you!
-
-## Support this project
-If you want to support this project, please think about making a small [contribution](https://www.paypal.me/dpacassi/5), thank you!
 
 ## Future plans
 Feature proposals are being added as [issues on GitHub](../../issues).  
