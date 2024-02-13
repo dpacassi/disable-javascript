@@ -3,7 +3,7 @@
 (function() {
   var tags = document.getElementsByTagName('noscript');
 
-  for (var i = 0; i < tags.length; i++) {
+  for (var i = tags.length - 1; i >= 0; i--) {
     if (tags[i].firstChild) {
       var newDiv = document.createElement('div');
       var a = tags[i].getAttributeNames();
